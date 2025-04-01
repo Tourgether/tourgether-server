@@ -45,6 +45,6 @@ public class Member {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "language_code", nullable = false)
+    @JoinColumn(name = "language_id", nullable = false)
     private Language languageId;
 }
