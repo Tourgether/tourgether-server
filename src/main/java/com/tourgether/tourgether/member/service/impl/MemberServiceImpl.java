@@ -23,11 +23,11 @@ public class MemberServiceImpl implements MemberService {
     public void withdraw(CustomUserDetails userDetails) {
 
         //TODO: GlobalExceptionHandler 확정 시 NotFoundException으로 변경
-        Member member = memberRepository.findByIdAndStatus(userDetails.getMemberId(), Status.ACTIVE)
+        Member member = memberRepository.findByIdAndStatus(userDetails.memberId(), Status.ACTIVE)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자"));
 
-        String identifier = switch (userDetails.getProvider()) {
-            case KAKAO -> userDetails.getProviderId();
+        String identifier = switch (userDetails.provider()) {
+            case KAKAO -> userDetails.providerId();
 
             // TODO: RN에서 토큰 전달받기 or 레디스에서 꺼내기 ---> oauth 구현 완료 후 정하기
             //case GOOGLE, NAVER -> getAccessToken(userDetails);
@@ -35,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
             case GOOGLE -> null;
         };
 
-        oauthUnlinkService.unlink(userDetails.getProvider(), identifier);
+        oauthUnlinkService.unlink(userDetails.provider(), identifier);
         member.withdraw();
     }
 }
