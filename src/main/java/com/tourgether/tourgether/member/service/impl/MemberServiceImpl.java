@@ -20,7 +20,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public void withDraw(CustomUserDetails userDetails) {
+    public void withdraw(CustomUserDetails userDetails) {
 
         //TODO: GlobalExceptionHandler 확정 시 NotFoundException으로 변경
         Member member = memberRepository.findByIdAndStatus(userDetails.getMemberId(), Status.ACTIVE)
