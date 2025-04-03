@@ -14,11 +14,11 @@ public class SecurityConfigTest {
     @Bean
     public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/**") // 모든 요청에 대해 보안 설정 적용
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // 모든 요청 허용
-                )
-                .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
-                .build();
+            .securityMatcher("/**") // 모든 요청에 대해 보안 설정 적용
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll() // 모든 요청 허용
+            )
+            .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
+            .build();
     }
 }

@@ -27,10 +27,10 @@ public class NaverUnlinkHandler implements SocialUnlinkHandler {
     @Override
     public void unlink(String accessToken) {
         String url = "https://nid.naver.com/oauth2.0/token" +
-                "?grant_type=delete" +
-                "&client_id=" + clientId +
-                "&client_secret=" + clientSecret +
-                "&access_token=" + accessToken;
+            "?grant_type=delete" +
+            "&client_id=" + clientId +
+            "&client_secret=" + clientSecret +
+            "&access_token=" + accessToken;
 
         try {
             ResponseEntity<String> respone = restTemplate.postForEntity(url, null, String.class);

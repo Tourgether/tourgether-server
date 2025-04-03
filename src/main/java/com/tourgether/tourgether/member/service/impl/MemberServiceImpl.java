@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService {
 
         //TODO: GlobalExceptionHandler 확정 시 NotFoundException으로 변경
         Member member = memberRepository.findByIdAndStatus(userDetails.memberId(), Status.ACTIVE)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자"));
+            .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자"));
 
         String identifier = switch (userDetails.provider()) {
             case KAKAO -> userDetails.providerId();

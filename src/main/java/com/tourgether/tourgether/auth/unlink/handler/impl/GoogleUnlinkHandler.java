@@ -25,7 +25,7 @@ public class GoogleUnlinkHandler implements SocialUnlinkHandler {
 
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, null, String.class);
-            if(!response.getStatusCode().is2xxSuccessful()) {
+            if (!response.getStatusCode().is2xxSuccessful()) {
                 throw new RuntimeException("구글 연동 해제 실패");
             }
         } catch (Exception e) {

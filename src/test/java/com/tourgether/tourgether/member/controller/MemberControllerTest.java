@@ -38,11 +38,11 @@ public class MemberControllerTest {
     void withdraw_success() throws Exception {
         // given: CustomUserDetails 생성
         CustomUserDetails userDetails = new CustomUserDetails(
-                1L,
-                "providerId",
-                Provider.KAKAO,
-                "nickname",
-                Status.ACTIVE
+            1L,
+            "providerId",
+            Provider.KAKAO,
+            "nickname",
+            Status.ACTIVE
         );
 
         Authentication auth = new TestingAuthenticationToken(userDetails, null);
@@ -50,8 +50,8 @@ public class MemberControllerTest {
 
         // when & then
         mvc.perform(delete("/api/v1/members")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
 
         // verify: 서비스 계층 호출 여부
         Mockito.verify(memberService).withdraw(userDetails);

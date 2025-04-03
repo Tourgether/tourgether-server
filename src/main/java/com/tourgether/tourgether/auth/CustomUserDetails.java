@@ -9,12 +9,11 @@ import java.util.Collection;
 import java.util.Collections;
 
 public record CustomUserDetails(
-        Long memberId,
-        String providerId,
-        Provider provider,
-        String nickname,
-        Status status) implements UserDetails
-{
+    Long memberId,
+    String providerId,
+    Provider provider,
+    String nickname,
+    Status status) implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

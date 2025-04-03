@@ -41,15 +41,15 @@ public class MemberServiceImplTest {
     void withdrawKakao() {
         Long memberId = 1L;
         Language language = new Language(1L, "EN");
-        Member member = new Member(1L, Provider.KAKAO, "kakao", "nickname","profile",
-                LocalDateTime.now(), LocalDateTime.now(), Status.ACTIVE, language, null);
+        Member member = new Member(1L, Provider.KAKAO, "kakao", "nickname", "profile",
+            LocalDateTime.now(), LocalDateTime.now(), Status.ACTIVE, language, null);
 
         CustomUserDetails userDetails = new CustomUserDetails(
-                memberId, "kakao", Provider.KAKAO, "nickname", Status.ACTIVE
+            memberId, "kakao", Provider.KAKAO, "nickname", Status.ACTIVE
         );
 
         given(memberRepository.findByIdAndStatus(memberId, Status.ACTIVE))
-                .willReturn(Optional.of(member));
+            .willReturn(Optional.of(member));
 
         memberService.withdraw(userDetails);
 
@@ -64,14 +64,14 @@ public class MemberServiceImplTest {
         Long memberId = 2L;
         Language language = new Language(2L, "KO");
         Member member = new Member(memberId, Provider.NAVER, null, "nickname", "profile",
-                LocalDateTime.now(), LocalDateTime.now(), Status.ACTIVE, language, null);
+            LocalDateTime.now(), LocalDateTime.now(), Status.ACTIVE, language, null);
 
         CustomUserDetails userDetails = new CustomUserDetails(
-                memberId, null, Provider.NAVER, "nick", Status.ACTIVE
+            memberId, null, Provider.NAVER, "nick", Status.ACTIVE
         );
 
         given(memberRepository.findByIdAndStatus(memberId, Status.ACTIVE))
-                .willReturn(Optional.of(member));
+            .willReturn(Optional.of(member));
 
         memberService.withdraw(userDetails);
 
@@ -87,14 +87,14 @@ public class MemberServiceImplTest {
         Long memberId = 3L;
         Language language = new Language(3L, "JP");
         Member member = new Member(memberId, Provider.GOOGLE, null, "nickname", "profile",
-                LocalDateTime.now(), LocalDateTime.now(), Status.ACTIVE, language, null);
+            LocalDateTime.now(), LocalDateTime.now(), Status.ACTIVE, language, null);
 
         CustomUserDetails userDetails = new CustomUserDetails(
-                memberId, null, Provider.GOOGLE, "nick", Status.ACTIVE
+            memberId, null, Provider.GOOGLE, "nick", Status.ACTIVE
         );
 
         given(memberRepository.findByIdAndStatus(memberId, Status.ACTIVE))
-                .willReturn(Optional.of(member));
+            .willReturn(Optional.of(member));
 
         memberService.withdraw(userDetails);
 
@@ -109,11 +109,11 @@ public class MemberServiceImplTest {
     void withdrawFailNotFoundUser() {
         Long memberId = 99L;
         CustomUserDetails userDetails = new CustomUserDetails(
-                memberId, "no", Provider.KAKAO, "nickname", Status.ACTIVE
+            memberId, "no", Provider.KAKAO, "nickname", Status.ACTIVE
         );
 
         given(memberRepository.findByIdAndStatus(memberId, Status.ACTIVE))
-                .willReturn(Optional.empty());
+            .willReturn(Optional.empty());
 
         org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
             memberService.withdraw(userDetails);
@@ -126,18 +126,18 @@ public class MemberServiceImplTest {
         Long memberId = 4L;
         Language language = new Language(4L, "JP");
         Member member = new Member(memberId, Provider.KAKAO, "kakao", "nickname", "profile",
-                LocalDateTime.now(), LocalDateTime.now(), Status.ACTIVE, language, null);
+            LocalDateTime.now(), LocalDateTime.now(), Status.ACTIVE, language, null);
 
         CustomUserDetails userDetails = new CustomUserDetails(
-                memberId, "kakao", Provider.KAKAO, "nickname", Status.ACTIVE
+            memberId, "kakao", Provider.KAKAO, "nickname", Status.ACTIVE
         );
 
         given(memberRepository.findByIdAndStatus(memberId, Status.ACTIVE))
-                .willReturn(Optional.of(member));
+            .willReturn(Optional.of(member));
 
         willThrow(new RuntimeException("연동 해제 실패"))
-                .given(oauthUnlinkService)
-                .unlink(Provider.KAKAO, "kakao");
+            .given(oauthUnlinkService)
+            .unlink(Provider.KAKAO, "kakao");
 
         org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> {
             memberService.withdraw(userDetails);

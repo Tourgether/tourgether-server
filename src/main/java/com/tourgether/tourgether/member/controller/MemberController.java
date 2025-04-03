@@ -18,7 +18,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @DeleteMapping
-    public ResponseEntity<ApiResponse<Void>> withdraw(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<ApiResponse<Void>> withdraw(
+        @AuthenticationPrincipal CustomUserDetails userDetails) {
         memberService.withdraw(userDetails);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
