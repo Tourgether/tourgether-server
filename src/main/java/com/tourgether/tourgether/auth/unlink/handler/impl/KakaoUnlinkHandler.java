@@ -1,6 +1,6 @@
-package com.tourgether.tourgether.auth.unlink.handler;
+package com.tourgether.tourgether.auth.unlink.handler.impl;
 
-import com.tourgether.tourgether.auth.unlink.SocialUnlinkHandler;
+import com.tourgether.tourgether.auth.unlink.handler.SocialUnlinkHandler;
 import com.tourgether.tourgether.member.enums.Provider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -40,10 +40,10 @@ public class KakaoUnlinkHandler implements SocialUnlinkHandler {
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, rqeust, String.class);
             if (!response.getStatusCode().is2xxSuccessful()) {
-                throw new RuntimeException("Kakao unlink failed: " + response.getBody());
+                throw new RuntimeException("카카오 연동 해제 실패 : " + response.getBody());
             }
         } catch (Exception e) {
-            throw new RuntimeException("Kakao unlink failed Exception: " + e.getMessage());
+            throw new RuntimeException("카카오 연동 해제 실패: " + e.getMessage());
         }
     }
 }

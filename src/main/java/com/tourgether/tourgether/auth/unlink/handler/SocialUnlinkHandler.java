@@ -1,4 +1,4 @@
-package com.tourgether.tourgether.auth.unlink;
+package com.tourgether.tourgether.auth.unlink.handler;
 
 import com.tourgether.tourgether.member.enums.Provider;
 

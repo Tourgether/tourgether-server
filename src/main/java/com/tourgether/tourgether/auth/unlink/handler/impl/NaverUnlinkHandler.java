@@ -1,6 +1,6 @@
-package com.tourgether.tourgether.auth.unlink.handler;
+package com.tourgether.tourgether.auth.unlink.handler.impl;
 
-import com.tourgether.tourgether.auth.unlink.SocialUnlinkHandler;
+import com.tourgether.tourgether.auth.unlink.handler.SocialUnlinkHandler;
 import com.tourgether.tourgether.member.enums.Provider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,10 +35,10 @@ public class NaverUnlinkHandler implements SocialUnlinkHandler {
         try {
             ResponseEntity<String> respone = restTemplate.postForEntity(url, null, String.class);
             if (!respone.getStatusCode().is2xxSuccessful()) {
-                throw new RuntimeException("NidaverUnlink failed with status " + respone.getStatusCode());
+                throw new RuntimeException("네이버 연동 해제 실패, 상태코드 : " + respone.getStatusCode());
             }
         } catch (Exception e) {
-            throw new RuntimeException("NidaverUnlink failed Exception", e);
+            throw new RuntimeException("네이버 연동 해제 실패", e);
         }
     }
 }
