@@ -1,7 +1,6 @@
 package com.tourgether.tourgether.member.service;
 
 import com.tourgether.tourgether.auth.CustomUserDetails;
-import com.tourgether.tourgether.member.dto.request.NicknameUpdateRequest;
 import com.tourgether.tourgether.member.dto.response.NicknameUpdateResponse;
 
 public interface MemberService {

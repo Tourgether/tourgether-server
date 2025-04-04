@@ -6,7 +6,6 @@ import com.tourgether.tourgether.language.entity.Language;
 import com.tourgether.tourgether.language.entity.repository.LanguageRepository;
 import com.tourgether.tourgether.member.dto.response.NicknameUpdateResponse;
 import com.tourgether.tourgether.member.entity.Member;
-import com.tourgether.tourgether.member.enums.Status;
 import com.tourgether.tourgether.member.repository.MemberRepository;
 import com.tourgether.tourgether.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
