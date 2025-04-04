@@ -1,6 +1,8 @@
 package com.tourgether.tourgether.member.service;
 
 import com.tourgether.tourgether.auth.CustomUserDetails;
+import com.tourgether.tourgether.member.dto.request.NicknameUpdateRequest;
+import com.tourgether.tourgether.member.dto.response.NicknameUpdateResponse;
 
 public interface MemberService {
 
@@ -8,5 +10,5 @@ public interface MemberService {
 
     void updateLanguage(Long memberId, String languageCode);
 
-    
+    NicknameUpdateResponse updateNickname(Long memberId, String nickname);
 }
