@@ -51,6 +51,6 @@ public class MemberServiceImpl implements MemberService {
         Language language = languageRepository.findByLanguageCode(languageCode)
             .orElseThrow(() -> new RuntimeException("지원하지 않는 언어입니다."));
 
-        
+        member.updateLanguage(language);
     }
 }
