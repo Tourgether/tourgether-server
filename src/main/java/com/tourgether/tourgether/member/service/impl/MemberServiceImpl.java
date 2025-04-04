@@ -3,7 +3,7 @@ package com.tourgether.tourgether.member.service.impl;
 import com.tourgether.tourgether.auth.CustomUserDetails;
 import com.tourgether.tourgether.auth.unlink.service.OauthUnlinkService;
 import com.tourgether.tourgether.language.entity.Language;
-import com.tourgether.tourgether.language.entity.repository.LanguageRepository;
+import com.tourgether.tourgether.language.repository.LanguageRepository;
 import com.tourgether.tourgether.member.dto.response.NicknameUpdateResponse;
 import com.tourgether.tourgether.member.entity.Member;
 import com.tourgether.tourgether.member.repository.MemberRepository;
