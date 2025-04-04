@@ -50,8 +50,6 @@ class AttractionControllerTest {
         "경복궁",
         "서울 종로구",
         "조선 시대 궁궐",
-        null,
-        "경복궁 설명 텍스트",
         "월요일",
         "09:00",
         "화요일",
