@@ -1,6 +1,7 @@
 package com.tourgether.tourgether.member.repository;
 
 import com.tourgether.tourgether.member.entity.Member;
+import com.tourgether.tourgether.member.enums.Provider;
 import com.tourgether.tourgether.member.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,4 +15,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
         return findByIdAndStatus(id, Status.ACTIVE)
             .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
     }
+    Optional<Member> findByProviderAndProviderId(Provider provider, String providerId);
 }

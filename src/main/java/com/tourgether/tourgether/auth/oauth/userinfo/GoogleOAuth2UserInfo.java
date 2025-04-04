@@ -1,24 +1,32 @@
 package com.tourgether.tourgether.auth.oauth.userinfo;
 
-public class GoogleOAuth2UserInfo implements OAuth2UserInfo{
+import com.tourgether.tourgether.member.enums.Provider;
+import java.util.Map;
+
+public class GoogleOAuth2UserInfo extends OAuth2UserInfo{
+
+  public GoogleOAuth2UserInfo(Map<String, Object> attributes) {
+    super(attributes);
+  }
 
   @Override
   public String getProvider() {
-    return "";
+    return Provider.KAKAO.name();
   }
 
   @Override
   public String getProviderId() {
-    return "";
+    return (String) attributes.get("sub");
   }
 
   @Override
   public String getNickName() {
-    return "";
+    return (String) attributes.get("nickname");
   }
 
   @Override
   public String getProfileImage() {
-    return "";
+    return (String) attributes.get("profile_image_url");
   }
+
 }

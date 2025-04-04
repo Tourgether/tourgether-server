@@ -3,9 +3,11 @@ package com.tourgether.tourgether.auth.oauth.userinfo;
 import com.tourgether.tourgether.member.enums.Provider;
 import java.util.Map;
 
-public class KakaoOAuth2UserInfo implements OAuth2UserInfo {
+public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
 
-  private final
+  public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
+    super(attributes);
+  }
 
   @Override
   public String getProvider() {
@@ -24,6 +26,7 @@ public class KakaoOAuth2UserInfo implements OAuth2UserInfo {
 
   @Override
   public String getProfileImage() {
-    return (String) attributes.get("picture");
+    return (String) attributes.get("profile_image_url");
   }
+
 }
