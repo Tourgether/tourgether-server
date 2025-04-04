@@ -1,13 +1,11 @@
-package com.tourgether.tourgether.auth.oauth;
+package com.tourgether.tourgether.auth.oauth.userinfo;
 
 import com.tourgether.tourgether.member.enums.Provider;
 import java.util.Map;
 
-public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
+public class KakaoOAuth2UserInfo implements OAuth2UserInfo {
 
-  public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
-    super(attributes);
-  }
+  private final
 
   @Override
   public String getProvider() {

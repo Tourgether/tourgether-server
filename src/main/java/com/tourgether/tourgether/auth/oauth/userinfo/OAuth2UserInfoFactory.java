@@ -1,4 +1,4 @@
-package com.tourgether.tourgether.auth.oauth;
+package com.tourgether.tourgether.auth.oauth.userinfo;
 
 import java.util.Map;
 

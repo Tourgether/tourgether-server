@@ -1,12 +1,6 @@
-package com.tourgether.tourgether.auth.oauth;
+package com.tourgether.tourgether.auth.oauth.userinfo;
 
-import java.util.Map;
-
-public class NaverOAuth2UserInfo extends OAuth2UserInfo{
-
-  public NaverOAuth2UserInfo(Map<String, Object> attributes) {
-    super(attributes);
-  }
+public class GoogleOAuth2UserInfo implements OAuth2UserInfo{
 
   @Override
   public String getProvider() {
