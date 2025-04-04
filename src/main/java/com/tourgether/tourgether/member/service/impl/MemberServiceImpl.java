@@ -27,8 +27,7 @@ public class MemberServiceImpl implements MemberService {
     public void withdraw(CustomUserDetails userDetails) {
 
         //TODO: GlobalExceptionHandler 확정 시 NotFoundException으로 변경
-        Member member = memberRepository.findByIdAndStatus(userDetails.memberId(), Status.ACTIVE)
-            .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
+        Member member = memberRepository.getActiveMemberOrThrow(userDetails.memberId());
 
         String identifier = switch (userDetails.provider()) {
             case KAKAO -> userDetails.providerId();
@@ -46,8 +45,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public void updateLanguage(Long memberId, String languageCode) {
-        Member member = memberRepository.findByIdAndStatus(memberId, Status.ACTIVE)
-            .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
+        Member member = memberRepository.getActiveMemberOrThrow(memberId);
 
         Language language = languageRepository.findByLanguageCode(languageCode)
             .orElseThrow(() -> new RuntimeException("지원하지 않는 언어입니다."));
@@ -58,8 +56,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public NicknameUpdateResponse updateNickname(Long memberId, String nickname) {
-        Member member = memberRepository.findByIdAndStatus(memberId, Status.ACTIVE)
-            .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
+        Member member = memberRepository.getActiveMemberOrThrow(memberId);
 
         member.updateNickname(nickname);
 
