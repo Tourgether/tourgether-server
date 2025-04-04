@@ -29,7 +29,7 @@ public class MemberController {
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
-    @PatchMapping("/languages")
+    @PatchMapping("/me/languages")
     public ResponseEntity<ApiResponse<Void>> updateLanguage(
         @AuthenticationPrincipal CustomUserDetails userDetails,
         @RequestBody @Valid LanguageUpdateRequest languageUpdateRequest) {
