@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/members")
+@RequestMapping("/api/v1/members/me")
 public class MemberController {
 
   private final MemberService memberService;
@@ -32,7 +32,7 @@ public class MemberController {
     return ResponseEntity.ok(ApiResponse.success(null));
   }
 
-  @PatchMapping("/me/languages")
+  @PatchMapping("/languages")
   public ResponseEntity<ApiResponse<Void>> updateLanguage(
       @AuthenticationPrincipal CustomUserDetails userDetails,
       @RequestBody @Valid LanguageUpdateRequest languageUpdateRequest) {
@@ -41,7 +41,7 @@ public class MemberController {
     return ResponseEntity.ok(ApiResponse.success(null));
   }
 
-  @PatchMapping("/me/nickname")
+  @PatchMapping("/nickname")
   public ResponseEntity<ApiResponse<NicknameUpdateResponse>> updateNickname(
       @AuthenticationPrincipal CustomUserDetails userDetails,
       @RequestBody @Valid NicknameUpdateRequest nicknameUpdateRequest) {
