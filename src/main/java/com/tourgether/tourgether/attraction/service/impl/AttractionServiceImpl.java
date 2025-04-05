@@ -30,4 +30,15 @@ public class AttractionServiceImpl implements AttractionService {
         .toList();
   }
 
+
+  @Override
+  public List<AttractionResponse> findNearbyAttractions(double latitude, double longitude,
+      double radius, Long languageId) {
+
+    return translationRepository.findNearbyAttractionsByLanguageId(latitude, longitude, radius,
+            languageId)
+        .stream()
+        .map(AttractionResponse::from)
+        .toList();
+  }
 }
