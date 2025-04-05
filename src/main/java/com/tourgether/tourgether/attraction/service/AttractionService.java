@@ -8,7 +8,7 @@ public interface AttractionService {
 
   List<AttractionResponse> searchAttractions(Long languageId, String keyword);
 
-  List<AttractionResponse> findNearbyAttractions(
+  List<AttractionResponse> searchNearbyAttractions(
       double latitude,
       double longitude,
       double radius,

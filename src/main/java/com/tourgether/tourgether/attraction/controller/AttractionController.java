@@ -32,7 +32,7 @@ public class AttractionController {
       @RequestParam double radius,
       @RequestParam Long languageId
   ) {
-    List<AttractionResponse> nearbyAttractions = attractionService.findNearbyAttractions(
+    List<AttractionResponse> nearbyAttractions = attractionService.searchNearbyAttractions(
         latitude, longitude, radius, languageId);
 
     return ResponseEntity.ok(ApiResponse.success(nearbyAttractions));
