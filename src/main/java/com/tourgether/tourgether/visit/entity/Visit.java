@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import org.geolatte.geom.V;
 
 @Getter
 @AllArgsConstructor
