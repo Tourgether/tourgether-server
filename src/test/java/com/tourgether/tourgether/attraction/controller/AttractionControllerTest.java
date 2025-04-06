@@ -2,6 +2,7 @@ package com.tourgether.tourgether.attraction.controller;
 
 import com.tourgether.tourgether.attraction.dto.AttractionDetailResponse;
 import com.tourgether.tourgether.attraction.dto.AttractionResponse;
+import com.tourgether.tourgether.attraction.dto.LevelDescriptionResponse;
 import com.tourgether.tourgether.attraction.service.AttractionService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -155,5 +156,27 @@ class AttractionControllerTest {
         .andExpect(jsonPath("$.data.openingDay").value("화요일"))
         .andExpect(jsonPath("$.data.openingTime").value("09:00"))
         .andExpect(jsonPath("$.data.closedDay").value("월요일"));
+  }
+
+  @Test
+  @DisplayName("GET /api/v1/attractions/{id}/levels - 단계별 설명 정상 조회")
+  void getAttractionLevelDescriptionsSuccess() throws Exception {
+    // given
+    LevelDescriptionResponse level1 = new LevelDescriptionResponse(1L, "입구에서 정전까지");
+    LevelDescriptionResponse level2 = new LevelDescriptionResponse(2L, "정전 내부 설명");
+
+    when(attractionService.getAttractionLevelDescriptions(1L, 1L))
+        .thenReturn(List.of(level1, level2));
+
+    // when & then
+    mockMvc.perform(get("/api/v1/attractions/1/levels")
+            .param("lang", "1")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.success").value(true))
+        .andExpect(jsonPath("$.code").value(200))
+        .andExpect(jsonPath("$.message").value("요청 성공"))
+        .andExpect(jsonPath("$.data[0].description").value("입구에서 정전까지"))
+        .andExpect(jsonPath("$.data[1].description").value("정전 내부 설명"));
   }
 }
