@@ -4,6 +4,7 @@ import com.tourgether.tourgether.attraction.entity.Attraction;
 import com.tourgether.tourgether.attraction.repository.AttractionRepository;
 import com.tourgether.tourgether.member.entity.Member;
 import com.tourgether.tourgether.member.repository.MemberRepository;
+import com.tourgether.tourgether.visit.dto.request.VisitCreateRequest;
 import com.tourgether.tourgether.visit.dto.response.VisitResponse;
 import com.tourgether.tourgether.visit.entity.Visit;
 import com.tourgether.tourgether.visit.repository.VisitRepository;
@@ -23,11 +24,12 @@ public class VisitServiceImpl implements VisitService {
 
   @Transactional
   @Override
-  public VisitResponse createVisit(Long memberId, Long attractionId) {
+  public VisitResponse createVisit(Long memberId, VisitCreateRequest request) {
     Member member = memberRepository.getActiveMemberOrThrow(memberId);
 
-    Attraction attraction = attractionRepository.findById(attractionId)
-        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 관광지 ID : " + attractionId));
+    Attraction attraction = attractionRepository.findById(request.attractionId())
+        .orElseThrow(
+            () -> new IllegalArgumentException("존재하지 않는 관광지 ID : " + request.attractionId()));
 
     Visit visit = Visit.of(member, attraction);
     visitRepository.save(visit);

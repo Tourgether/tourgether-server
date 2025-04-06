@@ -26,8 +26,7 @@ public class VisitController {
       @AuthenticationPrincipal CustomUserDetails userDetails,
       @RequestBody @Valid VisitCreateRequest request) {
 
-    VisitResponse response = visitService.createVisit(userDetails.memberId(),
-        request.attractionId());
+    VisitResponse response = visitService.createVisit(userDetails.memberId(), request);
 
     return ResponseEntity.ok(ApiResponse.success(response));
   }
