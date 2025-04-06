@@ -1,5 +1,6 @@
 package com.tourgether.tourgether.attraction.service;
 
+import com.tourgether.tourgether.attraction.dto.AttractionDetailResponse;
 import com.tourgether.tourgether.attraction.dto.AttractionResponse;
 import com.tourgether.tourgether.attraction.entity.Attraction;
 import com.tourgether.tourgether.attraction.entity.AttractionTranslation;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -123,6 +125,51 @@ class AttractionServiceTest {
     assertThat(results.get(0).name()).isEqualTo("경복궁");
 
     verify(translationRepository).findNearbyAttractionsByLanguageId(37.0, 127.0, 1000, 1L);
+  }
+
+  @Test
+  @DisplayName("여행지 상세 정보를 언어 ID와 관광지 ID로 조회할 수 있다")
+  void getAttractionDetailSuccess() {
+    // given
+    AttractionTranslation translation = new AttractionTranslation(
+        1L,
+        language,
+        attraction,
+        "경복궁",
+        "서울 종로구",
+        "조선 시대 궁궐",
+        null,
+        "경복궁은 조선의 궁궐입니다.",
+        "화요일",
+        "09:00",
+        "월요일",
+        List.of()
+    );
+
+    when(translationRepository.findByAttractionIdAndLanguageId(1L, 1L))
+        .thenReturn(Optional.of(translation));
+
+    // when
+    AttractionDetailResponse attractionDetail = attractionService.getAttractionDetail(1L, 1L);
+
+    // then
+    assertThat(attractionDetail.name()).isEqualTo("경복궁");
+    assertThat(attractionDetail.address()).isEqualTo("서울 종로구");
+    assertThat(attractionDetail.audioText()).contains("조선의 궁궐");
+    verify(translationRepository).findByAttractionIdAndLanguageId(1L, 1L);
+  }
+
+  @Test
+  @DisplayName("존재하지 않는 언어 ID 또는 관광지 ID일 경우 예외가 발생한다")
+  void getAttractionDetailFail() {
+    // given
+    when(translationRepository.findByAttractionIdAndLanguageId(999L, 1L))
+        .thenReturn(Optional.empty());
+
+    // when & then
+    assertThatThrownBy(() -> attractionService.getAttractionDetail(1L, 999L))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("해당 언어의 여행지 정보를 찾을 수 없습니다.");
   }
 
 }
