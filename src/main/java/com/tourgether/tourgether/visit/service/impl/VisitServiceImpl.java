@@ -5,6 +5,7 @@ import com.tourgether.tourgether.attraction.repository.AttractionRepository;
 import com.tourgether.tourgether.member.entity.Member;
 import com.tourgether.tourgether.member.repository.MemberRepository;
 import com.tourgether.tourgether.visit.dto.response.VisitResponse;
+import com.tourgether.tourgether.visit.entity.Visit;
 import com.tourgether.tourgether.visit.repository.VisitRepository;
 import com.tourgether.tourgether.visit.service.VisitService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,8 @@ public class VisitServiceImpl implements VisitService {
     Attraction attraction = attractionRepository.findById(attractionId)
         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 관광지 ID : " + attractionId));
 
+    Visit visit = Visit.of(member, attraction);
+    visitRepository.save(visit);
     return null;
   }
 }
