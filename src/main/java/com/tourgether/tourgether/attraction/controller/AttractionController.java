@@ -1,5 +1,6 @@
 package com.tourgether.tourgether.attraction.controller;
 
+import com.tourgether.tourgether.attraction.dto.AttractionDetailResponse;
 import com.tourgether.tourgether.attraction.dto.AttractionResponse;
 import com.tourgether.tourgether.attraction.service.AttractionService;
 import com.tourgether.tourgether.common.dto.ApiResponse;
@@ -36,5 +37,16 @@ public class AttractionController {
         latitude, longitude, radius, languageId);
 
     return ResponseEntity.ok(ApiResponse.success(nearbyAttractions));
+  }
+
+  @GetMapping("/{attractionId}")
+  public ResponseEntity<ApiResponse<AttractionDetailResponse>> getAttractionDetail(
+      @PathVariable Long attractionId,
+      @RequestParam("lang") Long languageId
+  ) {
+    AttractionDetailResponse detail = attractionService.getAttractionDetail(
+        languageId, attractionId);
+
+    return ResponseEntity.ok(ApiResponse.success(detail));
   }
 }

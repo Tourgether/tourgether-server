@@ -1,6 +1,8 @@
 package com.tourgether.tourgether.attraction.service.impl;
 
+import com.tourgether.tourgether.attraction.dto.AttractionDetailResponse;
 import com.tourgether.tourgether.attraction.dto.AttractionResponse;
+import com.tourgether.tourgether.attraction.entity.AttractionTranslation;
 import com.tourgether.tourgether.attraction.repository.AttractionTranslationRepository;
 import com.tourgether.tourgether.attraction.service.AttractionService;
 import com.tourgether.tourgether.language.entity.Language;
@@ -9,9 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AttractionServiceImpl implements AttractionService {
 
   private final AttractionTranslationRepository translationRepository;
@@ -39,5 +43,15 @@ public class AttractionServiceImpl implements AttractionService {
         .stream()
         .map(AttractionResponse::from)
         .toList();
+  }
+
+  @Override
+  public AttractionDetailResponse getAttractionDetail(Long languageId, Long attractionId) {
+
+    AttractionTranslation attractionTranslation = translationRepository.findByAttractionIdAndLanguageId(
+            attractionId, languageId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 언어의 여행지 정보를 찾을 수 없습니다."));
+
+    return AttractionDetailResponse.from(attractionTranslation);
   }
 }
