@@ -21,6 +21,7 @@ public class VisitServiceImpl implements VisitService {
   private final MemberRepository memberRepository;
   private final AttractionRepository attractionRepository;
 
+  @Transactional
   @Override
   public VisitResponse createVisit(Long memberId, Long attractionId) {
     Member member = memberRepository.getActiveMemberOrThrow(memberId);
@@ -30,6 +31,7 @@ public class VisitServiceImpl implements VisitService {
 
     Visit visit = Visit.of(member, attraction);
     visitRepository.save(visit);
-    return null;
+
+    return VisitResponse.from(visit);
   }
 }
