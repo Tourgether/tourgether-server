@@ -159,18 +159,17 @@ class AttractionControllerTest {
   }
 
   @Test
-  @DisplayName("GET /api/v1/attractions/{id}/levels - 단계별 설명 정상 조회")
-  void getAttractionLevelDescriptionsSuccess() throws Exception {
+  @DisplayName("GET /api/v1/attractions/{translationId}/levels - 단계별 설명 정상 조회")
+  void getAttractionLevelDescriptionsByTranslationIdSuccess() throws Exception {
     // given
     LevelDescriptionResponse level1 = new LevelDescriptionResponse(1L, "입구에서 정전까지");
     LevelDescriptionResponse level2 = new LevelDescriptionResponse(2L, "정전 내부 설명");
 
-    when(attractionService.getAttractionLevelDescriptions(1L, 1L))
+    when(attractionService.getAttractionLevelDescriptions(1L))
         .thenReturn(List.of(level1, level2));
 
     // when & then
     mockMvc.perform(get("/api/v1/attractions/1/levels")
-            .param("lang", "1")
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.success").value(true))

@@ -59,11 +59,10 @@ public class AttractionServiceImpl implements AttractionService {
   }
 
   @Override
-  public List<LevelDescriptionResponse> getAttractionLevelDescriptions(Long attractionId,
-      Long languageId) {
-    
+  public List<LevelDescriptionResponse> getAttractionLevelDescriptions(Long translationId) {
+
     return levelDescriptionRepository
-        .findByTranslationAttractionIdAndTranslationLanguageId(attractionId, languageId)
+        .findByTranslationTranslationId(translationId)
         .stream()
         .map(LevelDescriptionResponse::from)
         .toList();

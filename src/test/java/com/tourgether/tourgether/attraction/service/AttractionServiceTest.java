@@ -58,7 +58,7 @@ class AttractionServiceTest {
   void setUp() {
     language = new Language(1L, "ko");
     Point location = createPoint(37.0, 127.0);
-    attraction = new Attraction(1L, location);
+    attraction = new Attraction(1L, location, "url");
   }
 
   @Test
@@ -76,8 +76,7 @@ class AttractionServiceTest {
         "경복궁은 조선의 궁궐입니다.",
         null,
         null,
-        null,
-        List.of()
+        null
     );
 
     when(languageRepository.findById(1L)).thenReturn(Optional.of(language));
@@ -101,7 +100,7 @@ class AttractionServiceTest {
     // given
     Point location = createPoint(37.0, 127.0);
 
-    Attraction nearbyAttraction = new Attraction(1L, location);
+    Attraction nearbyAttraction = new Attraction(1L, location, "url");
 
     AttractionTranslation nearbyTranslation = new AttractionTranslation(
         1L,
@@ -114,15 +113,15 @@ class AttractionServiceTest {
         "경복궁은 조선의 궁궐입니다.",
         null,
         null,
-        null,
-        List.of()
+        null
     );
 
     when(translationRepository.findNearbyAttractionsByLanguageId(37.0, 127.0, 1000, 1L))
         .thenReturn(List.of(nearbyTranslation));
 
     // when
-    List<AttractionResponse> results = attractionService.searchNearbyAttractions(37.0, 127.0, 1000,
+    List<AttractionResponse> results = attractionService.searchNearbyAttractions(37.0, 127.0,
+        1000,
         1L);
 
     // then
@@ -147,8 +146,7 @@ class AttractionServiceTest {
         "경복궁은 조선의 궁궐입니다.",
         "화요일",
         "09:00",
-        "월요일",
-        List.of()
+        "월요일"
     );
 
     when(translationRepository.findByAttractionIdAndLanguageId(1L, 1L))
@@ -178,11 +176,13 @@ class AttractionServiceTest {
   }
 
   @Test
-  @DisplayName("여행지 단계별 설명을 관광지 ID와 언어 ID로 조회할 수 있다")
-  void getAttractionLevelDescriptionsSuccess() {
+  @DisplayName("여행지 단계별 설명을 번역 ID로 조회할 수 있다")
+  void getAttractionLevelDescriptionsByTranslationIdSuccess() {
     // given
+    Long translationId = 1L;
+
     AttractionTranslation translation = new AttractionTranslation(
-        1L,
+        translationId,
         language,
         attraction,
         "경복궁",
@@ -192,24 +192,23 @@ class AttractionServiceTest {
         "경복궁은 조선의 궁궐입니다.",
         "화요일",
         "09:00",
-        "월요일",
-        List.of()
+        "월요일"
     );
 
     LevelDescription level1 = new LevelDescription(1L, "입구에서 정전까지", translation);
     LevelDescription level2 = new LevelDescription(2L, "정전 내부 설명", translation);
 
-    when(levelDescriptionRepository.findByTranslationAttractionIdAndTranslationLanguageId(1L, 1L))
+    when(levelDescriptionRepository.findByTranslationTranslationId(translationId))
         .thenReturn(List.of(level1, level2));
 
     // when
-    var result = attractionService.getAttractionLevelDescriptions(1L, 1L);
+    var result = attractionService.getAttractionLevelDescriptions(translationId);
 
     // then
     assertThat(result).hasSize(2);
     assertThat(result.get(0).description()).isEqualTo("입구에서 정전까지");
     assertThat(result.get(1).description()).isEqualTo("정전 내부 설명");
-    verify(levelDescriptionRepository).findByTranslationAttractionIdAndTranslationLanguageId(1L,
-        1L);
+    verify(levelDescriptionRepository).findByTranslationTranslationId(translationId);
   }
+
 }

@@ -22,7 +22,8 @@ public class AttractionController {
       @RequestParam("lang") Long languageId,
       @RequestParam(value = "keyword", required = false) String keyword
   ) {
-    List<AttractionResponse> attractions = attractionService.searchAttractions(languageId, keyword);
+    List<AttractionResponse> attractions = attractionService.searchAttractions(languageId,
+        keyword);
 
     return ResponseEntity.ok(ApiResponse.success(attractions));
   }
@@ -51,13 +52,12 @@ public class AttractionController {
     return ResponseEntity.ok(ApiResponse.success(detail));
   }
 
-  @GetMapping("/{attractionId}/levels")
+  @GetMapping("/{translationId}/levels")
   public ResponseEntity<ApiResponse<List<LevelDescriptionResponse>>> getLevelDescriptions(
-      @PathVariable Long attractionId,
-      @RequestParam("lang") Long languageId
+      @PathVariable Long translationId
   ) {
     List<LevelDescriptionResponse> descriptions = attractionService.getAttractionLevelDescriptions(
-        attractionId, languageId);
+        translationId);
 
     return ResponseEntity.ok(ApiResponse.success(descriptions));
   }
