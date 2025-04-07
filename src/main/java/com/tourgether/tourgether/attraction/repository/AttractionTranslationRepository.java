@@ -3,6 +3,7 @@ package com.tourgether.tourgether.attraction.repository;
 import com.tourgether.tourgether.attraction.entity.AttractionTranslation;
 import com.tourgether.tourgether.language.entity.Language;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +22,25 @@ public interface AttractionTranslationRepository extends
       @Param("language") Language language,
       @Param("keyword") String keyword
   );
+
+  @Query(value = """
+      SELECT at.*
+      FROM attraction_translations at
+      JOIN attractions a ON at.attraction_id = a.id
+      WHERE at.language_id = :languageId
+        AND ST_DWithin(
+          a.location,
+          ST_SetSRID(ST_MakePoint(:lon, :lat), 4326)::geography,
+          :radius
+        )
+      """, nativeQuery = true)
+  List<AttractionTranslation> findNearbyAttractionsByLanguageId(
+      @Param("lat") double latitude,
+      @Param("lon") double longitude,
+      @Param("radius") double radiusInMeters,
+      @Param("languageId") Long languageId
+  );
+
+  Optional<AttractionTranslation> findByAttractionIdAndLanguageId(Long attractionId,
+      Long languageId);
 }

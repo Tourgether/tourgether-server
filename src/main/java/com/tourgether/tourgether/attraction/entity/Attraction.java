@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+import org.locationtech.jts.geom.Point;
 
 @Getter
 @AllArgsConstructor
@@ -20,9 +20,9 @@ public class Attraction {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "latitude", precision = 9, scale = 6, nullable = false)
-  private BigDecimal latitude;
+  @Column(columnDefinition = "geometry(Point, 4326)", nullable = false)
+  private Point location;
 
-  @Column(name = "longitude", precision = 9, scale = 6, nullable = false)
-  private BigDecimal longitude;
+  @Column(name = "thumbnail_img_url", nullable = false, columnDefinition = "TEXT")
+  private String thumbnailImgUrl;
 }
