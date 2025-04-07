@@ -1,7 +1,7 @@
 package com.tourgether.tourgether.attraction.service;
 
 import com.tourgether.tourgether.attraction.dto.AttractionDetailResponse;
-import com.tourgether.tourgether.attraction.dto.AttractionResponse;
+import com.tourgether.tourgether.attraction.dto.AttractionSummaryResponse;
 import com.tourgether.tourgether.attraction.entity.Attraction;
 import com.tourgether.tourgether.attraction.entity.AttractionTranslation;
 import com.tourgether.tourgether.attraction.entity.LevelDescription;
@@ -84,7 +84,7 @@ class AttractionServiceTest {
         .thenReturn(List.of(translation));
 
     // when
-    List<AttractionResponse> results = attractionService.searchAttractions(1L, "조선");
+    List<AttractionSummaryResponse> results = attractionService.searchAttractions(1L, "조선");
 
     // then
     assertThat(results).hasSize(1);
@@ -120,7 +120,7 @@ class AttractionServiceTest {
         .thenReturn(List.of(nearbyTranslation));
 
     // when
-    List<AttractionResponse> results = attractionService.searchNearbyAttractions(37.0, 127.0,
+    List<AttractionSummaryResponse> results = attractionService.searchNearbyAttractions(37.0, 127.0,
         1000,
         1L);
 

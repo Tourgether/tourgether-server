@@ -1,7 +1,7 @@
 package com.tourgether.tourgether.attraction.controller;
 
 import com.tourgether.tourgether.attraction.dto.AttractionDetailResponse;
-import com.tourgether.tourgether.attraction.dto.AttractionResponse;
+import com.tourgether.tourgether.attraction.dto.AttractionSummaryResponse;
 import com.tourgether.tourgether.attraction.dto.LevelDescriptionResponse;
 import com.tourgether.tourgether.attraction.service.AttractionService;
 import org.junit.jupiter.api.DisplayName;
@@ -47,16 +47,12 @@ class AttractionControllerTest {
   @DisplayName("GET /api/v1/attractions - 정상 검색 시 200 OK와 ApiResponse 반환")
   void getAttractionsSuccess() throws Exception {
     // given
-    AttractionResponse response = new AttractionResponse(
+    AttractionSummaryResponse response = new AttractionSummaryResponse(
         1L,
         "경복궁",
         "서울 종로구",
         "조선 시대 궁궐",
-        "월요일",
-        "09:00",
-        "화요일",
-        new BigDecimal("37.5796"),
-        new BigDecimal("126.9770")
+        "url"
     );
 
     when(attractionService.searchAttractions(1L, "경복궁"))
@@ -93,16 +89,12 @@ class AttractionControllerTest {
   @DisplayName("GET /api/v1/attractions/nearby - 정상 요청 시 200 OK와 ApiResponse 반환")
   void getNearbyAttractionsSuccess() throws Exception {
     // given
-    AttractionResponse response = new AttractionResponse(
+    AttractionSummaryResponse response = new AttractionSummaryResponse(
         1L,
         "경복궁",
         "서울 종로구",
         "조선 시대 궁궐",
-        "월요일",
-        "09:00",
-        "화요일",
-        new BigDecimal("37.5796"),
-        new BigDecimal("126.9770")
+        "url"
     );
 
     when(attractionService.searchNearbyAttractions(37.5796, 126.9770, 1000, 1L))

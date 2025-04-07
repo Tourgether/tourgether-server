@@ -1,7 +1,7 @@
 package com.tourgether.tourgether.attraction.controller;
 
 import com.tourgether.tourgether.attraction.dto.AttractionDetailResponse;
-import com.tourgether.tourgether.attraction.dto.AttractionResponse;
+import com.tourgether.tourgether.attraction.dto.AttractionSummaryResponse;
 import com.tourgether.tourgether.attraction.dto.LevelDescriptionResponse;
 import com.tourgether.tourgether.attraction.service.AttractionService;
 import com.tourgether.tourgether.common.dto.ApiResponse;
@@ -18,24 +18,24 @@ public class AttractionController {
   private final AttractionService attractionService;
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<AttractionResponse>>> getAttractions(
+  public ResponseEntity<ApiResponse<List<AttractionSummaryResponse>>> getAttractions(
       @RequestParam("lang") Long languageId,
       @RequestParam(value = "keyword", required = false) String keyword
   ) {
-    List<AttractionResponse> attractions = attractionService.searchAttractions(languageId,
+    List<AttractionSummaryResponse> attractions = attractionService.searchAttractions(languageId,
         keyword);
 
     return ResponseEntity.ok(ApiResponse.success(attractions));
   }
 
   @GetMapping("/nearby")
-  public ResponseEntity<ApiResponse<List<AttractionResponse>>> getNearbyAttractions(
+  public ResponseEntity<ApiResponse<List<AttractionSummaryResponse>>> getNearbyAttractions(
       @RequestParam double latitude,
       @RequestParam double longitude,
       @RequestParam double radius,
       @RequestParam Long languageId
   ) {
-    List<AttractionResponse> nearbyAttractions = attractionService.searchNearbyAttractions(
+    List<AttractionSummaryResponse> nearbyAttractions = attractionService.searchNearbyAttractions(
         latitude, longitude, radius, languageId);
 
     return ResponseEntity.ok(ApiResponse.success(nearbyAttractions));

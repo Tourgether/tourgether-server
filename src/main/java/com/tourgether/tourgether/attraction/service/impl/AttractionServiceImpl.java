@@ -1,7 +1,7 @@
 package com.tourgether.tourgether.attraction.service.impl;
 
 import com.tourgether.tourgether.attraction.dto.AttractionDetailResponse;
-import com.tourgether.tourgether.attraction.dto.AttractionResponse;
+import com.tourgether.tourgether.attraction.dto.AttractionSummaryResponse;
 import com.tourgether.tourgether.attraction.dto.LevelDescriptionResponse;
 import com.tourgether.tourgether.attraction.entity.AttractionTranslation;
 import com.tourgether.tourgether.attraction.repository.AttractionTranslationRepository;
@@ -25,7 +25,7 @@ public class AttractionServiceImpl implements AttractionService {
   private final LevelDescriptionRepository levelDescriptionRepository;
 
   @Override
-  public List<AttractionResponse> searchAttractions(Long languageId, String keyword) {
+  public List<AttractionSummaryResponse> searchAttractions(Long languageId, String keyword) {
 
     // TODO: custom exception
     Language language = languageRepository.findById(languageId)
@@ -33,18 +33,18 @@ public class AttractionServiceImpl implements AttractionService {
 
     return translationRepository.searchByKeywordInFields(language, keyword)
         .stream()
-        .map(AttractionResponse::from)
+        .map(AttractionSummaryResponse::from)
         .toList();
   }
 
   @Override
-  public List<AttractionResponse> searchNearbyAttractions(double latitude, double longitude,
+  public List<AttractionSummaryResponse> searchNearbyAttractions(double latitude, double longitude,
       double radius, Long languageId) {
 
     return translationRepository.findNearbyAttractionsByLanguageId(latitude, longitude, radius,
             languageId)
         .stream()
-        .map(AttractionResponse::from)
+        .map(AttractionSummaryResponse::from)
         .toList();
   }
 
