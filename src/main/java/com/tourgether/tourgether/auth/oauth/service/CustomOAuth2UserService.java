@@ -59,10 +59,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
   private Provider getProviderType(String registrationId) {
     return Arrays.stream(Provider.values())
-        .filter(provider -> provider.getRegistrationId().equalsIgnoreCase(registrationId))
+        .filter(provider -> provider.getProviderType().equalsIgnoreCase(registrationId))
         .findFirst()
         .orElseThrow(RuntimeException::new);
-    // Exception 종류 생각
+    // TODO Exception 종류 생각
   }
 
   private Member getOrCreateMember(Provider provider, OAuth2UserInfo userInfo) {
@@ -75,7 +75,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .profileImage(userInfo.getProfileImage())
                     .languageId(entityManager.getReference(Language.class, 2)).build())
         );
-    // Languae는 프록시 객체로 임시 저장
+    // TODO Languae는 프록시 객체로 임시 저장
     return member;
   }
 }

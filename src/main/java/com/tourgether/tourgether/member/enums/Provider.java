@@ -8,9 +8,9 @@ public enum Provider {
     NAVER("naver"),
     GOOGLE("google");
 
-    private final String registrationId;
+    private final String providerType;
 
-    Provider(String registrationId) {
-        this.registrationId = registrationId;
+    Provider(String providerType) {
+        this.providerType = providerType;
     }
 }

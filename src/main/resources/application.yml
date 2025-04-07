@@ -2,6 +2,12 @@ spring:
   application:
     name: tourgether
 
+  jwt:
+    access:
+      secret-key: 1jXYyaT+dwwE2XSg0ia3hxUrjp94Hk2EQGmcunhc4T4=
+    refresh:
+      secret-key: L1Wj2ZMKxxDwSCgHWUkW9ChGIpbXfiYo0btJVoy3jdU=
+
   security:
     oauth2:
       client:
