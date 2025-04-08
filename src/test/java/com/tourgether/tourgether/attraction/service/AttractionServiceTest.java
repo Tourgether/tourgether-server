@@ -2,9 +2,11 @@ package com.tourgether.tourgether.attraction.service;
 
 import com.tourgether.tourgether.attraction.dto.AttractionDetailResponse;
 import com.tourgether.tourgether.attraction.dto.AttractionSummaryResponse;
+import com.tourgether.tourgether.attraction.dto.LevelDescriptionResponse;
 import com.tourgether.tourgether.attraction.entity.Attraction;
 import com.tourgether.tourgether.attraction.entity.AttractionTranslation;
 import com.tourgether.tourgether.attraction.entity.LevelDescription;
+import com.tourgether.tourgether.attraction.exception.AttractionTranslationNotFoundException;
 import com.tourgether.tourgether.attraction.repository.AttractionTranslationRepository;
 import com.tourgether.tourgether.attraction.repository.LevelDescriptionRepository;
 import com.tourgether.tourgether.attraction.service.impl.AttractionServiceImpl;
@@ -171,7 +173,7 @@ class AttractionServiceTest {
 
     // when & then
     assertThatThrownBy(() -> attractionService.getAttractionDetail(999L, 1L))
-        .isInstanceOf(IllegalArgumentException.class)
+        .isInstanceOf(AttractionTranslationNotFoundException.class)
         .hasMessage("해당 언어의 여행지 정보를 찾을 수 없습니다.");
   }
 
@@ -198,16 +200,19 @@ class AttractionServiceTest {
     LevelDescription level1 = new LevelDescription(1L, "입구에서 정전까지", translation);
     LevelDescription level2 = new LevelDescription(2L, "정전 내부 설명", translation);
 
+    when(translationRepository.existsById(translationId)).thenReturn(true);
     when(levelDescriptionRepository.findByTranslationTranslationId(translationId))
         .thenReturn(List.of(level1, level2));
 
     // when
-    var result = attractionService.getAttractionLevelDescriptions(translationId);
+    List<LevelDescriptionResponse> result = attractionService.getAttractionLevelDescriptions(
+        translationId);
 
     // then
     assertThat(result).hasSize(2);
     assertThat(result.get(0).description()).isEqualTo("입구에서 정전까지");
     assertThat(result.get(1).description()).isEqualTo("정전 내부 설명");
+    verify(translationRepository).existsById(translationId);
     verify(levelDescriptionRepository).findByTranslationTranslationId(translationId);
   }
 
