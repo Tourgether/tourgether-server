@@ -1,6 +1,6 @@
 package com.tourgether.tourgether.auth.oauth.handler;
 
-import com.tourgether.tourgether.auth.oauth.service.CustomOAuth2User;
+import com.tourgether.tourgether.auth.oauth.user.CustomOAuth2User;
 import com.tourgether.tourgether.auth.service.RefreshTokenService;
 import com.tourgether.tourgether.auth.service.TokenMappingService;
 import com.tourgether.tourgether.auth.util.JwtUtil;

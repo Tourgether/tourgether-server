@@ -1,6 +1,6 @@
 package com.tourgether.tourgether.member.controller;
 
-import com.tourgether.tourgether.auth.CustomUserDetails;
+import com.tourgether.tourgether.auth.oauth.user.CustomUserDetails;
 import com.tourgether.tourgether.common.dto.ApiResult;
 import com.tourgether.tourgether.member.dto.request.LanguageUpdateRequest;
 import com.tourgether.tourgether.member.dto.request.NicknameUpdateRequest;

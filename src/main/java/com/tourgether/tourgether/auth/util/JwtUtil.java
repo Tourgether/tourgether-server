@@ -4,8 +4,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
-import java.security.SignatureException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.UUID;
 
+@Slf4j
 @Component
 public class JwtUtil {
 
@@ -81,6 +83,26 @@ public class JwtUtil {
   }
 
   /**
+   * 서버 내 memberId 맵핑 식별자인 tokenCode 추출
+   *
+   * @param accessToken 사용자의 access token
+   * @return tokenCode
+   */
+  public String getTokenCodeFromAccessToken(String accessToken) {
+    return extractAccessToken(accessToken).getSubject();
+  }
+
+  /**
+   * 서버 내 memberId 맵핑 식별자인 tokenCode 추출
+   *
+   * @param refreshToken 사용자의 refresh token
+   * @return tokenCode
+   */
+  public String getTokenCodeFromRefreshToken(String refreshToken) {
+    return extractRefreshToken(refreshToken).getSubject();
+  }
+
+  /**
    * Token parsing
    *
    * @param token     {access, refresh} token
@@ -88,57 +110,19 @@ public class JwtUtil {
    * @return jwt token 정보
    */
   private Claims parseToken(String token, SecretKey secretKey) {
-    return Jwts.parser()
-        .verifyWith(secretKey)
-        .build()
-        .parseSignedClaims(token)
-        .getPayload();
-  }
-
-  /**
-   * access token 만료 검증
-   *
-   * @param accessToken 사용자의 access token
-   * @return access token 만료 여부
-   */
-  public boolean validateAccessToken(String accessToken) {
-    return validateTokenWithKey(accessToken, accessSecretKey);
-  }
-
-  /**
-   * refresh token 만료 검증
-   *
-   * @param refreshToken 사용자의 refresh token
-   * @return refresh token 만료 여부
-   */
-  public boolean validateRefreshToken(String refreshToken) {
-    return validateTokenWithKey(refreshToken, refreshSecretKey);
-  }
-
-  /**
-   * 토큰 만료 검증
-   *
-   * @param token {access, refresh} token
-   * @param key   {access, refresh} secretKey
-   * @return 토큰 만료 여부
-   */
-  private boolean validateTokenWithKey(String token, SecretKey key) {
     try {
-      Claims claims = parseToken(token, key);
-      return !isTokenExpired(claims);
+      return Jwts.parser()
+          .verifyWith(secretKey)
+          .build()
+          .parseSignedClaims(token)
+          .getPayload();
+    } catch (ExpiredJwtException e) {
+      log.debug("토큰 만료");
+      throw e;
     } catch (JwtException | IllegalArgumentException e) {
-      return false;
+      log.debug("토큰 형식 문제 발생");
+      throw e;
     }
-  }
-
-  /**
-   * 토큰 만료 검증
-   *
-   * @param claims 토큰 정보
-   * @return 토큰 만료 여부
-   */
-  private boolean isTokenExpired(Claims claims) {
-    return claims.getExpiration().before(new Date());
   }
 
   /**
@@ -162,26 +146,6 @@ public class JwtUtil {
   }
 
   /**
-   * 서버 내 memberId 맵핑 식별자인 tokenCode 추출
-   *
-   * @param accessToken 사용자의 access token
-   * @return tokenCode
-   */
-  public String getTokenCodeFromAccessToken(String accessToken) {
-    return extractAccessToken(accessToken).getSubject();
-  }
-
-  /**
-   * 서버 내 memberId 맵핑 식별자인 tokenCode 추출
-   *
-   * @param refreshToken 사용자의 refresh token
-   * @return tokenCode
-   */
-  public String getTokenCodeFromRefreshToken(String refreshToken) {
-    return extractRefreshToken(refreshToken).getSubject();
-  }
-
-  /**
    * tokenCode 위한 Random UUID 생성
    *
    * @return tokenCode
@@ -189,5 +153,4 @@ public class JwtUtil {
   public String getRandomKey() {
     return UUID.randomUUID().toString();
   }
-
 }

@@ -1,6 +1,7 @@
 package com.tourgether.tourgether.member.entity;
 
 import com.tourgether.tourgether.language.entity.Language;
+import com.tourgether.tourgether.member.dto.response.MemberInfoResponse;
 import com.tourgether.tourgether.member.enums.Provider;
 import com.tourgether.tourgether.member.enums.Status;
 import com.tourgether.tourgether.visit.entity.Visit;
@@ -54,23 +55,24 @@ public class Member {
   @OneToMany(mappedBy = "member")
   private List<Visit> visitList = new ArrayList<>();
 
-    public void withdraw() {
-        this.status = Status.WITHDRAW;
-        this.updatedAt = LocalDateTime.now();
-    }
+  public void withdraw() {
+    this.status = Status.WITHDRAW;
+    this.updatedAt = LocalDateTime.now();
+  }
 
-    public void updateLanguage(Language language) {
-        this.languageId = language;
-        this.updatedAt = LocalDateTime.now();
-    }
+  public void updateLanguage(Language language) {
+    this.languageId = language;
+    this.updatedAt = LocalDateTime.now();
+  }
 
-    public void updateNickname(String nickname) {
-        this.nickname = nickname;
-        this.updatedAt = LocalDateTime.now();
-    }
+  public void updateNickname(String nickname) {
+    this.nickname = nickname;
+    this.updatedAt = LocalDateTime.now();
+  }
 
   @Builder
-  private Member(Provider provider, String providerId, String nickname, String profileImage, Language languageId) {
+  private Member(Provider provider, String providerId, String nickname, String profileImage,
+      Language languageId) {
     this.provider = provider;
     this.providerId = providerId;
     this.nickname = nickname;

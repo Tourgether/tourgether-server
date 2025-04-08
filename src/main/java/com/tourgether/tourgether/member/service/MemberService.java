@@ -1,8 +1,9 @@
 package com.tourgether.tourgether.member.service;
 
-import com.tourgether.tourgether.auth.CustomUserDetails;
+import com.tourgether.tourgether.auth.oauth.user.CustomUserDetails;
 import com.tourgether.tourgether.member.dto.response.MemberInfoResponse;
 import com.tourgether.tourgether.member.dto.response.NicknameUpdateResponse;
+import com.tourgether.tourgether.member.entity.Member;
 
 public interface MemberService {
 
@@ -13,4 +14,6 @@ public interface MemberService {
   NicknameUpdateResponse updateNickname(Long memberId, String nickname);
 
   MemberInfoResponse getMemberInfo(Long memberId);
+
+  Member getActiveMember(Long memberId);
 }

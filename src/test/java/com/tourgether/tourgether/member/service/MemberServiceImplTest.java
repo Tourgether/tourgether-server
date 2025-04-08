@@ -1,6 +1,6 @@
 package com.tourgether.tourgether.member.service;
 
-import com.tourgether.tourgether.auth.CustomUserDetails;
+import com.tourgether.tourgether.auth.oauth.user.CustomUserDetails;
 import com.tourgether.tourgether.auth.unlink.service.OauthUnlinkService;
 import com.tourgether.tourgether.language.entity.Language;
 import com.tourgether.tourgether.member.entity.Member;
@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;

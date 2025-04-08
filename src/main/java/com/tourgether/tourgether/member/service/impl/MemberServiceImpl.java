@@ -1,6 +1,6 @@
 package com.tourgether.tourgether.member.service.impl;
 
-import com.tourgether.tourgether.auth.CustomUserDetails;
+import com.tourgether.tourgether.auth.oauth.user.CustomUserDetails;
 import com.tourgether.tourgether.auth.unlink.service.OauthUnlinkService;
 import com.tourgether.tourgether.language.entity.Language;
 import com.tourgether.tourgether.language.repository.LanguageRepository;
@@ -67,5 +67,10 @@ public class MemberServiceImpl implements MemberService {
   public MemberInfoResponse getMemberInfo(Long memberId) {
     Member member = memberRepository.getActiveMemberOrThrow(memberId);
     return MemberInfoResponse.from(member);
+  }
+
+  @Override
+  public Member getActiveMember(Long memberId) {
+    return memberRepository.getActiveMemberOrThrow(memberId);
   }
 }

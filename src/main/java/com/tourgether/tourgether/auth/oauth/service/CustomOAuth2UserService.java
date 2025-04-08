@@ -1,5 +1,6 @@
 package com.tourgether.tourgether.auth.oauth.service;
 
+import com.tourgether.tourgether.auth.oauth.user.CustomOAuth2User;
 import com.tourgether.tourgether.auth.oauth.userinfo.OAuth2UserInfo;
 import com.tourgether.tourgether.auth.oauth.userinfo.OAuth2UserInfoFactory;
 import com.tourgether.tourgether.language.entity.Language;
@@ -7,15 +8,12 @@ import com.tourgether.tourgether.member.entity.Member;
 import com.tourgether.tourgether.member.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;

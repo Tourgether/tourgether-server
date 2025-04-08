@@ -1,5 +1,6 @@
 package com.tourgether.tourgether.auth.service;
 
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,7 +10,7 @@ public class TokenMappingService {
 
     }
 
-    public Long getMemberIdFromTokenCode(String tokenCode) {
+    public Optional<Long> getMemberId(String tokenCode) {
 
     }
 
