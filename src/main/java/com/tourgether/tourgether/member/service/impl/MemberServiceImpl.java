@@ -1,6 +1,6 @@
 package com.tourgether.tourgether.member.service.impl;
 
-import com.tourgether.tourgether.auth.oauth.user.CustomUserDetails;
+import com.tourgether.tourgether.auth.CustomUserDetails;
 import com.tourgether.tourgether.auth.unlink.service.OauthUnlinkService;
 import com.tourgether.tourgether.language.entity.Language;
 import com.tourgether.tourgether.language.repository.LanguageRepository;

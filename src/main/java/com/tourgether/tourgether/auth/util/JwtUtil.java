@@ -23,9 +23,6 @@ public class JwtUtil {
   private final SecretKey accessSecretKey;
   private final SecretKey refreshSecretKey;
 
-  private final long accessTokenValidityTime = 60 * 60 * 1000L; // 1시간
-  private final long refreshTokenValidityTime = 14 * 24 * 60 * 60 * 1000L; // 2주
-
   /**
    * encoded HS256
    *
@@ -48,8 +45,8 @@ public class JwtUtil {
    * @param tokenCode 서버 내 member id 맵핑 식별자
    * @return AccessToken
    */
-  public String generateAccessToken(String tokenCode) {
-    return buildToken(tokenCode, accessSecretKey, accessTokenValidityTime);
+  public String generateAccessToken(String tokenCode, Long validityMs) {
+    return buildToken(tokenCode, validityMs, accessSecretKey);
   }
 
   /**
@@ -58,8 +55,8 @@ public class JwtUtil {
    * @param tokenCode 서버 내 memberId 맵핑 식별자
    * @return RefreshToken
    */
-  public String generateRefreshToken(String tokenCode) {
-    return buildToken(tokenCode, refreshSecretKey, refreshTokenValidityTime);
+  public String generateRefreshToken(String tokenCode, Long validityMs) {
+    return buildToken(tokenCode, validityMs, refreshSecretKey);
   }
 
   /**
@@ -67,17 +64,16 @@ public class JwtUtil {
    *
    * @param tokenCode     서버 내 memberId 맵핑 식별자
    * @param secretKey     {access, refresh} secretKey
-   * @param validityMills {access, refresh} validityTime
+   * @param validityMs {access, refresh} validityTime
    * @return {access, refresh} Token
    */
-  private String buildToken(String tokenCode, SecretKey secretKey,
-      long validityMills) {
-    Date now = new Date();
-    Date expiredDate = new Date(now.getTime() + validityMills);
+  private String buildToken(String tokenCode,Long validityMs, SecretKey secretKey) {
+    Date now = new Date(System.currentTimeMillis());
+    Date expiredMs = new Date(System.currentTimeMillis() + validityMs);
     return Jwts.builder()
         .subject(tokenCode)
         .issuedAt(now)
-        .expiration(expiredDate)
+        .expiration(expiredMs)
         .signWith(secretKey)
         .compact();
   }

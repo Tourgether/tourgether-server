@@ -1,4 +1,4 @@
-package com.tourgether.tourgether.auth.oauth.user;
+package com.tourgether.tourgether.auth;
 
 import com.tourgether.tourgether.member.entity.Member;
 import com.tourgether.tourgether.member.enums.Provider;

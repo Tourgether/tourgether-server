@@ -1,6 +1,6 @@
 package com.tourgether.tourgether.member.controller;
 
-import com.tourgether.tourgether.auth.oauth.user.CustomUserDetails;
+import com.tourgether.tourgether.auth.CustomUserDetails;
 import com.tourgether.tourgether.member.enums.Provider;
 import com.tourgether.tourgether.member.enums.Status;
 import com.tourgether.tourgether.member.service.MemberService;

@@ -11,7 +11,10 @@ public class TokenMappingService {
     }
 
     public Optional<Long> getMemberId(String tokenCode) {
-
+        return null;
     }
 
+    public void deleteMappingByRandomKey() {
+
+    }
 }

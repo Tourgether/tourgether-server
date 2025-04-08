@@ -1,4 +1,4 @@
-package com.tourgether.tourgether.auth.oauth.user;
+package com.tourgether.tourgether.auth.oauth;
 
 import com.tourgether.tourgether.member.entity.Member;
 import java.util.Collection;

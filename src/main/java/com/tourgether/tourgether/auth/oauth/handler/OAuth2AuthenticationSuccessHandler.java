@@ -1,8 +1,8 @@
 package com.tourgether.tourgether.auth.oauth.handler;
 
-import com.tourgether.tourgether.auth.oauth.user.CustomOAuth2User;
-import com.tourgether.tourgether.auth.service.RefreshTokenService;
-import com.tourgether.tourgether.auth.service.TokenMappingService;
+import com.tourgether.tourgether.auth.dto.TokenResponse;
+import com.tourgether.tourgether.auth.oauth.CustomOAuth2User;
+import com.tourgether.tourgether.auth.service.AuthService;
 import com.tourgether.tourgether.auth.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,8 +21,7 @@ import java.io.IOException;
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtUtil jwtUtil;
-    private final RefreshTokenService refreshTokenService;
-    private final TokenMappingService tokenMappingService;
+    private final AuthService authService;
 
     /**
      * 사용자 인증 성공 시 실행 핸들러
@@ -36,19 +35,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                                         Authentication authentication) throws IOException {
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
         Long memberId = oAuth2User.getMember().getId();
-        String tokenCode = jwtUtil.getRandomKey();
 
-        tokenMappingService.saveTokenRefMapping(memberId, tokenCode);
-
-        String accessToken = jwtUtil.generateAccessToken(tokenCode);
-        String refreshToken = jwtUtil.generateRefreshToken(tokenCode);
-
-        refreshTokenService.save(memberId, tokenCode, refreshToken);
+        TokenResponse tokenResponse = authService.issueToken(memberId);
 
         // TODO 내 앱으로 딥링크 return Uri 지정
         String targetUrl = UriComponentsBuilder.fromUriString("")
-                .queryParam("accessToken", accessToken)
-                .queryParam("refreshToken", refreshToken)
+                .queryParam("accessToken", tokenResponse.accessToken())
+                .queryParam("refreshToken", tokenResponse.refreshToken())
                 .build()
                 .toUriString();
 

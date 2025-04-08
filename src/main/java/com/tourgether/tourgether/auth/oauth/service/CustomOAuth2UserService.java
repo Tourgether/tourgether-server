@@ -1,6 +1,6 @@
 package com.tourgether.tourgether.auth.oauth.service;
 
-import com.tourgether.tourgether.auth.oauth.user.CustomOAuth2User;
+import com.tourgether.tourgether.auth.oauth.CustomOAuth2User;
 import com.tourgether.tourgether.auth.oauth.userinfo.OAuth2UserInfo;
 import com.tourgether.tourgether.auth.oauth.userinfo.OAuth2UserInfoFactory;
 import com.tourgether.tourgether.language.entity.Language;

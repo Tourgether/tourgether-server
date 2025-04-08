@@ -10,7 +10,11 @@ public class RefreshTokenService {
 
     private final JwtUtil jwtUtil;
 
-    public void save(Long memberId, String tokenCode, String refreshToken) {
+    public void save(Long memberId, String refreshToken) {
+
+    }
+
+    public boolean exists(Long memberId, String refreshToken) {
 
     }
 }
