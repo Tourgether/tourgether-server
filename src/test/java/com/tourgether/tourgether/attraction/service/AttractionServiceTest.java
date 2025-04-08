@@ -216,4 +216,20 @@ class AttractionServiceTest {
     verify(levelDescriptionRepository).findByTranslationTranslationId(translationId);
   }
 
+  @Test
+  @DisplayName("존재하지 않는 번역 ID로 단계별 설명을 조회하면 예외가 발생한다")
+  void getAttractionLevelDescriptionsByTranslationIdFail() {
+    // given
+    Long invalidTranslationId = 999L;
+    when(translationRepository.existsById(invalidTranslationId)).thenReturn(false);
+
+    // when & then
+    assertThatThrownBy(() -> attractionService.getAttractionLevelDescriptions(invalidTranslationId))
+        .isInstanceOf(AttractionTranslationNotFoundException.class)
+        .hasMessage("해당 번역 ID의 여행지 정보를 찾을 수 없습니다.");
+
+    verify(translationRepository).existsById(invalidTranslationId);
+    verifyNoInteractions(levelDescriptionRepository);
+  }
+
 }
