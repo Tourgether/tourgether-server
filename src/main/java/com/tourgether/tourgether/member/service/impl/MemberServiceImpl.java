@@ -68,9 +68,4 @@ public class MemberServiceImpl implements MemberService {
     Member member = memberRepository.getActiveMemberOrThrow(memberId);
     return MemberInfoResponse.from(member);
   }
-
-  @Override
-  public Member getActiveMember(Long memberId) {
-    return memberRepository.getActiveMemberOrThrow(memberId);
-  }
 }

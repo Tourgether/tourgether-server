@@ -14,6 +14,4 @@ public interface MemberService {
   NicknameUpdateResponse updateNickname(Long memberId, String nickname);
 
   MemberInfoResponse getMemberInfo(Long memberId);
-
-  Member getActiveMember(Long memberId);
 }

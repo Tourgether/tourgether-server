@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
         .body(ApiResult.fail(HttpStatus.NOT_FOUND.value(), ex.getMessage()));
   }
 
-  @ExceptionHandler(BadRequestException.class)
+  @ExceptionHandler(UnauthorizedException.class)
   public ResponseEntity<ApiResult<?>> handleUnauthorized(UnauthorizedException ex) {
     log.warn("[UnauthorizedException] {}", ex.getMessage());
 
