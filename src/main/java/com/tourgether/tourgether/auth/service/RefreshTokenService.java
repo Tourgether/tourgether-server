@@ -15,6 +15,6 @@ public class RefreshTokenService {
     }
 
     public boolean exists(Long memberId, String refreshToken) {
-
+        return true;
     }
 }

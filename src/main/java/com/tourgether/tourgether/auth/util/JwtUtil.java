@@ -29,8 +29,8 @@ public class JwtUtil {
    * @param accessSecretKey  32Byte random code
    * @param refreshSecretKey 32Byte random code
    */
-  public JwtUtil(@Value("spring.jwt.access.secret-key") String accessSecretKey,
-      @Value("spring.jwt.refresh.secret-key") String refreshSecretKey) {
+  public JwtUtil(@Value("${spring.jwt.access.secret-key}") String accessSecretKey,
+      @Value("${spring.jwt.refresh.secret-key}") String refreshSecretKey) {
     this.accessSecretKey = new SecretKeySpec(
         accessSecretKey.getBytes(StandardCharsets.UTF_8),
         Jwts.SIG.HS256.key().build().getAlgorithm());
