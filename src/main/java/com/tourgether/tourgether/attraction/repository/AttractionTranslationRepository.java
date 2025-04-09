@@ -43,4 +43,23 @@ public interface AttractionTranslationRepository extends
 
   Optional<AttractionTranslation> findByAttractionIdAndLanguageId(Long attractionId,
       Long languageId);
+
+
+  @Query(value = """
+      SELECT at.*
+      FROM attraction_translations at
+      JOIN (
+          SELECT v.attraction_id
+          FROM visits v
+          GROUP BY v.attraction_id
+          ORDER BY COUNT(*) DESC
+          LIMIT :limit
+      ) popular ON at.attraction_id = popular.attraction_id
+      WHERE at.language_id = :languageId
+      """, nativeQuery = true)
+  List<AttractionTranslation> findTopVisitedAttractions(
+      @Param("languageId") Long languageId,
+      @Param("limit") int limit
+  );
+
 }

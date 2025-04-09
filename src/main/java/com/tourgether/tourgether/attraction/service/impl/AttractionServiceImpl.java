@@ -73,4 +73,18 @@ public class AttractionServiceImpl implements AttractionService {
         .map(LevelDescriptionResponse::from)
         .toList();
   }
+
+  @Override
+  public List<AttractionSummaryResponse> getPopularAttractions(Long languageId, int limit) {
+    boolean exists = languageRepository.existsById(languageId);
+    if (!exists) {
+      throw new AttractionTranslationNotFoundException("존재하지 않는 언어입니다.");
+    }
+
+    return translationRepository.findTopVisitedAttractions(languageId, limit)
+        .stream()
+        .map(AttractionSummaryResponse::from)
+        .toList();
+  }
+
 }

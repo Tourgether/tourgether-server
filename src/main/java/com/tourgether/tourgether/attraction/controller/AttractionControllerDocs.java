@@ -15,6 +15,8 @@ import jakarta.validation.constraints.Min;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "Attraction", description = "여행지 관련 API")
 public interface AttractionControllerDocs {
@@ -100,4 +102,28 @@ public interface AttractionControllerDocs {
   ResponseEntity<ApiResult<List<LevelDescriptionResponse>>> getLevelDescriptions(
       @Parameter(description = "번역 ID", example = "1") Long translationId
   );
+
+
+  @Operation(summary = "인기 관광지 조회", description = "방문 수 기준으로 인기 많은 관광지를 조회합니다.")
+  @ApiResponse(responseCode = "200", description = "정상적으로 조회됨")
+  @ApiResponse(
+      responseCode = "400",
+      description = "limit이 1 미만일 경우",
+      content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+  )
+  @ApiResponse(
+      responseCode = "404",
+      description = "해당 언어 ID가 존재하지 않음",
+      content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+  )
+  @ApiResponse(
+      responseCode = "500",
+      description = "서버 내부 오류",
+      content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+  )
+  ResponseEntity<ApiResult<List<AttractionSummaryResponse>>> getPopularAttractions(
+      @Parameter(description = "언어 ID", example = "1") Long languageId,
+      @Parameter(description = "최대 개수", example = "10") @Min(value = 1, message = "limit은 1 이상이어야 합니다.") int limit
+  );
+
 }

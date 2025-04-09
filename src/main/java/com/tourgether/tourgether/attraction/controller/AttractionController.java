@@ -65,4 +65,15 @@ public class AttractionController implements AttractionControllerDocs {
     return ResponseEntity.ok(ApiResult.success(descriptions));
   }
 
+  @GetMapping("/attractions/popular")
+  public ResponseEntity<ApiResult<List<AttractionSummaryResponse>>> getPopularAttractions(
+      @RequestParam("languageId") Long languageId,
+      @RequestParam(value = "limit", defaultValue = "10") @Min(value = 1, message = "limit은 1 이상이어야 합니다.") int limit
+  ) {
+    List<AttractionSummaryResponse> recommendations =
+        attractionService.getPopularAttractions(languageId, limit);
+
+    return ResponseEntity.ok(ApiResult.success(recommendations));
+  }
+
 }
