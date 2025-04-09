@@ -41,9 +41,7 @@ public interface AttractionTranslationRepository extends
       @Param("languageId") Long languageId
   );
 
-  Optional<AttractionTranslation> findByAttractionIdAndLanguageId(Long attractionId,
-      Long languageId);
-
+  Optional<AttractionTranslation> findByTranslationId(Long translationId);
 
   @Query(value = """
       SELECT at.*

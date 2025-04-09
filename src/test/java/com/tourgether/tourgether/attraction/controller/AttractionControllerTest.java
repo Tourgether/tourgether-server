@@ -115,7 +115,7 @@ class AttractionControllerTest {
   }
 
   @Test
-  @DisplayName("GET /api/v1/attractions/{id} - 상세 조회 시 200 OK와 ApiResponse 반환")
+  @DisplayName("GET /api/v1/attractions/{translationId} - 상세 조회 시 200 OK와 ApiResponse 반환")
   void getAttractionDetailSuccess() throws Exception {
     // given
     AttractionDetailResponse detailResponse = new AttractionDetailResponse(
@@ -132,11 +132,10 @@ class AttractionControllerTest {
         new BigDecimal("126.9770")
     );
 
-    when(attractionService.getAttractionDetail(1L, 1L)).thenReturn(detailResponse);
+    when(attractionService.getAttractionDetail(1L)).thenReturn(detailResponse);
 
     // when & then
     mockMvc.perform(get("/api/v1/attractions/1")
-            .param("lang", "1")
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.success").value(true))
@@ -149,6 +148,7 @@ class AttractionControllerTest {
         .andExpect(jsonPath("$.data.openingTime").value("09:00"))
         .andExpect(jsonPath("$.data.closedDay").value("월요일"));
   }
+
 
   @Test
   @DisplayName("GET /api/v1/attractions/{translationId}/levels - 단계별 설명 정상 조회")

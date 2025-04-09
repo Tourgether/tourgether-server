@@ -50,13 +50,11 @@ public class AttractionServiceImpl implements AttractionService {
   }
 
   @Override
-  public AttractionDetailResponse getAttractionDetail(Long attractionId, Long languageId) {
-
-    AttractionTranslation attractionTranslation = translationRepository.findByAttractionIdAndLanguageId(
-            attractionId, languageId)
-        .orElseThrow(() -> new AttractionTranslationNotFoundException("해당 언어의 여행지 정보를 찾을 수 없습니다."));
-
-    return AttractionDetailResponse.from(attractionTranslation);
+  public AttractionDetailResponse getAttractionDetail(Long translationId) {
+    AttractionTranslation translation = translationRepository.findById(translationId)
+        .orElseThrow(
+            () -> new AttractionTranslationNotFoundException("해당 번역 ID의 여행지 정보를 찾을 수 없습니다."));
+    return AttractionDetailResponse.from(translation);
   }
 
   @Override

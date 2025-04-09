@@ -134,11 +134,12 @@ class AttractionServiceTest {
   }
 
   @Test
-  @DisplayName("여행지 상세 정보를 언어 ID와 관광지 ID로 조회할 수 있다")
+  @DisplayName("여행지 상세 정보를 번역 ID로 조회할 수 있다")
   void getAttractionDetailSuccess() {
     // given
+    Long translationId = 1L;
     AttractionTranslation translation = new AttractionTranslation(
-        1L,
+        translationId,
         language,
         attraction,
         "경복궁",
@@ -151,31 +152,36 @@ class AttractionServiceTest {
         "월요일"
     );
 
-    when(translationRepository.findByAttractionIdAndLanguageId(1L, 1L))
+    when(translationRepository.findById(translationId))
         .thenReturn(Optional.of(translation));
 
     // when
-    AttractionDetailResponse attractionDetail = attractionService.getAttractionDetail(1L, 1L);
+    AttractionDetailResponse detail = attractionService.getAttractionDetail(translationId);
 
     // then
-    assertThat(attractionDetail.name()).isEqualTo("경복궁");
-    assertThat(attractionDetail.address()).isEqualTo("서울 종로구");
-    assertThat(attractionDetail.audioText()).contains("조선의 궁궐");
-    verify(translationRepository).findByAttractionIdAndLanguageId(1L, 1L);
+    assertThat(detail.name()).isEqualTo("경복궁");
+    assertThat(detail.address()).isEqualTo("서울 종로구");
+    assertThat(detail.audioText()).contains("조선의 궁궐");
+
+    verify(translationRepository).findById(translationId);
   }
 
   @Test
-  @DisplayName("존재하지 않는 언어 ID 또는 관광지 ID일 경우 예외가 발생한다")
+  @DisplayName("존재하지 않는 번역 ID일 경우 예외가 발생한다")
   void getAttractionDetailFail() {
     // given
-    when(translationRepository.findByAttractionIdAndLanguageId(999L, 1L))
+    Long invalidId = 999L;
+    when(translationRepository.findById(invalidId))
         .thenReturn(Optional.empty());
 
     // when & then
-    assertThatThrownBy(() -> attractionService.getAttractionDetail(999L, 1L))
+    assertThatThrownBy(() -> attractionService.getAttractionDetail(invalidId))
         .isInstanceOf(AttractionTranslationNotFoundException.class)
-        .hasMessage("해당 언어의 여행지 정보를 찾을 수 없습니다.");
+        .hasMessage("해당 번역 ID의 여행지 정보를 찾을 수 없습니다.");
+
+    verify(translationRepository).findById(invalidId);
   }
+
 
   @Test
   @DisplayName("여행지 단계별 설명을 번역 ID로 조회할 수 있다")

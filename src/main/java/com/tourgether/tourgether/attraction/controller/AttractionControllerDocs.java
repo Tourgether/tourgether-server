@@ -15,8 +15,6 @@ import jakarta.validation.constraints.Min;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "Attraction", description = "여행지 관련 API")
 public interface AttractionControllerDocs {
@@ -69,11 +67,11 @@ public interface AttractionControllerDocs {
   );
 
 
-  @Operation(summary = "여행지 상세 조회", description = "여행지 ID와 언어 ID로 상세 정보를 조회합니다.")
+  @Operation(summary = "여행지 상세 조회", description = "번역 ID로 상세 정보를 조회합니다.")
   @ApiResponse(responseCode = "200", description = "정상적으로 조회됨")
   @ApiResponse(
       responseCode = "404",
-      description = "해당 언어나 여행지 ID에 대한 번역 정보가 없음",
+      description = "해당 번역 ID의 여행지 정보를 찾을 수 없습니다.",
       content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
   )
   @ApiResponse(
@@ -82,8 +80,7 @@ public interface AttractionControllerDocs {
       content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
   )
   ResponseEntity<ApiResult<AttractionDetailResponse>> getAttractionDetail(
-      @Parameter(description = "여행지 ID", example = "1") Long attractionId,
-      @Parameter(description = "언어 ID", example = "1") Long languageId
+      @Parameter(description = "번역 ID", example = "1") Long translationId
   );
 
 
