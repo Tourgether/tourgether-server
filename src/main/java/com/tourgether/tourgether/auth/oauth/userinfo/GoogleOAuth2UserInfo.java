@@ -11,7 +11,7 @@ public class GoogleOAuth2UserInfo extends OAuth2UserInfo{
 
   @Override
   public String getProvider() {
-    return Provider.KAKAO.name();
+    return Provider.GOOGLE.name();
   }
 
   @Override

@@ -8,13 +8,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RefreshTokenService {
 
-    private final JwtUtil jwtUtil;
+    private final RedisRepository redisRepository;
 
-    public void save(Long memberId, String refreshToken) {
+    private final String REFRESH_TOKEN_PREFIX = "refreshToken:";
 
+    public void saveRefreshToken(Long memberId, String refreshToken, long expiredMs) {
+        String key = REFRESH_TOKEN_PREFIX + memberId;
+        redisRepository.save(key, refreshToken, expiredMs);
     }
 
-    public boolean exists(Long memberId, String refreshToken) {
-        return true;
+    public boolean validateRefreshToken(Long memberId, String refreshToken) {
+        String key = REFRESH_TOKEN_PREFIX + memberId;
+        if (!redisRepository.exists(key)) {
+            return false;
+        }
+        String storedRefreshToken = redisRepository.findByKey(key).get();
+        return storedRefreshToken.equals(refreshToken);
     }
 }

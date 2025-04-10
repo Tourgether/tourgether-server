@@ -55,6 +55,13 @@ spring:
     username: devuser
     password: devpass123
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+#      password:
+#      database:
+
   jpa:
     hibernate:
       ddl-auto: create-drop

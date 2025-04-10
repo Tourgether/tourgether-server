@@ -52,29 +52,29 @@ public class AuthService {
       throw e;
     }
 
-    if (!refreshTokenService.exists(member.getId(), refreshToken)) {
+    if (!refreshTokenService.validateRefreshToken(member.getId(), refreshToken)) {
       throw new InvalidTokenException("저장된 RefreshToken 과 일치하지 않습니다.");
     }
 
-    tokenMappingService.deleteMappingByRandomKey();
+    tokenMappingService.deleteMappingByTokenCode(tokenCode);
     return issueToken(member.getId());
   }
 
   public TokenResponse issueToken(Long memberId) {
     String tokenCode = jwtUtil.getRandomKey();
-    tokenMappingService.saveTokenRefMapping(memberId, tokenCode);
+    tokenMappingService.saveTokenCodeMapping(memberId, tokenCode, ACCESS_TOKEN_VALIDITY_TIME);
 
     String accessToken = jwtUtil.generateAccessToken(tokenCode, ACCESS_TOKEN_VALIDITY_TIME);
     String refreshToken = jwtUtil.generateRefreshToken(tokenCode, REFRESH_TOKEN_VALIDITY_TIME);
 
-    refreshTokenService.save(memberId, refreshToken);
+    refreshTokenService.saveRefreshToken(memberId, refreshToken, REFRESH_TOKEN_VALIDITY_TIME);
 
     return new TokenResponse(accessToken, refreshToken);
   }
 
   public Member getMemberWithTokenCode(String tokenCode) {
     // tokenMappingService 맵핑 조회
-    Long memberId = tokenMappingService.getMemberId(tokenCode).orElse(null);
+    Long memberId = tokenMappingService.getMemberIdByTokenCode(tokenCode).orElse(null);
     if (memberId == null) {
       throw new UserNotFoundException("redis expired or not found mapping, memberId= " + memberId);
     }
