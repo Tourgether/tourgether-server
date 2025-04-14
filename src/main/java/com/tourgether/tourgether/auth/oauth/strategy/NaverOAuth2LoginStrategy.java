@@ -2,45 +2,39 @@ package com.tourgether.tourgether.auth.oauth.strategy;
 
 import com.tourgether.tourgether.auth.oauth.dto.NaverUserResponse;
 import com.tourgether.tourgether.auth.oauth.dto.OAuth2UserInfo;
-import com.tourgether.tourgether.auth.util.HeaderUtil;
+import com.tourgether.tourgether.auth.util.OAuth2ClientUtil;
 import com.tourgether.tourgether.member.enums.Provider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
 
 @Component
-public class NaverOAuth2LoginStrategy implements OAuth2LoginStrategy{
+public class NaverOAuth2LoginStrategy implements OAuth2LoginStrategy {
 
-    private final HeaderUtil headerUtil;
-    private final RestClient restClient;
+    private final OAuth2ClientUtil oAuth2ClientUtil;
     private final String PROVIDER_URL;
+    private final Provider PROVIDER;
 
-    public NaverOAuth2LoginStrategy(HeaderUtil headerUtil,
-                                    RestClient restClient,
-                                    @Value("${spring.oauth2.client.provider.naver.url}")String provider_url
+    public NaverOAuth2LoginStrategy(OAuth2ClientUtil oAuth2ClientUtil,
+                                    @Value("${spring.oauth2.client.provider.naver.url}") String provider_url
     ) {
-        this.headerUtil = headerUtil;
-        this.restClient = restClient;
+        this.oAuth2ClientUtil = oAuth2ClientUtil;
         this.PROVIDER_URL = provider_url;
+        this.PROVIDER = Provider.NAVER;
     }
 
     @Override
     public OAuth2UserInfo getOAuth2UserInfo(String providerAccessToken) {
-        NaverUserResponse naverUserResponse = restClient.get()
-                .uri(PROVIDER_URL)
-                .header(headerUtil.getPREFIX_AUTHORIZATION(),
-                        headerUtil.getPREFIX_TOKEN_BEARER() + providerAccessToken)
-                .retrieve()
-                .body(NaverUserResponse.class);
-        return new OAuth2UserInfo(
-                naverUserResponse.response().id(),
-                getProvider(),
-                naverUserResponse.response().nickname(),
-                naverUserResponse.response().profileImage());
+        NaverUserResponse naverUserResponse = oAuth2ClientUtil.getUserInfo(
+                PROVIDER_URL,
+                providerAccessToken,
+                NaverUserResponse.class);
+
+        return (naverUserResponse == null) ? null
+                : naverUserResponse.toUserInfo();
     }
 
     @Override
     public Provider getProvider() {
-        return Provider.NAVER;
+        return PROVIDER;
     }
 }

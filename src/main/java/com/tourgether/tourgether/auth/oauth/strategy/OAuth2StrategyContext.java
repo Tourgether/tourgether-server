@@ -31,5 +31,4 @@ public class OAuth2StrategyContext {
         }
         return strategy;
     }
-
 }

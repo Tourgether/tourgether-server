@@ -37,7 +37,7 @@ public class AuthService {
                 .getOAuth2UserInfo(providerAccessToken);
 
         if (oAuth2UserInfo == null) {
-            throw new InvalidTokenException("해당 소셜 로그인이 실패하였습니다.");
+            throw new UserNotFoundException(String.format("%s 소셜 유저 정보 조회에 실패했습니다.", providerType));
         }
 
         Member member = getOrCreateMember(oAuth2UserInfo);
