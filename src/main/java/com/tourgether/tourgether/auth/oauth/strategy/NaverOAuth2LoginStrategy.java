@@ -36,7 +36,7 @@ public class NaverOAuth2LoginStrategy implements OAuth2LoginStrategy{
                 naverUserResponse.response().id(),
                 getProvider(),
                 naverUserResponse.response().nickname(),
-                naverUserResponse.response().profile_image());
+                naverUserResponse.response().profileImage());
     }
 
     @Override

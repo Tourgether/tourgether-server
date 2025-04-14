@@ -37,7 +37,7 @@ public class KakaoOAuth2LoginStrategy implements OAuth2LoginStrategy {
                 String.valueOf(kakaoUserResponse.id()),
                 getProvider(),
                 kakaoUserResponse.kakaoAccount().profile().nickname(),
-                kakaoUserResponse.kakaoAccount().profile().profile_image_url());
+                kakaoUserResponse.kakaoAccount().profile().profileImageUrl());
     }
 
     @Override
