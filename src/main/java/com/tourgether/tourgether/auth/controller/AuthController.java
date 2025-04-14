@@ -19,7 +19,7 @@ public class AuthController {
 
   @PostMapping("/oauth2/{provider}/login")
   public ResponseEntity<ApiResult<TokenResponse>> oauth2Login(
-          @PathVariable @Valid String provider,
+          @PathVariable String provider,
           @RequestBody @Valid OAuth2LoginRequest oAuth2LoginRequest) {
     TokenResponse tokenResponse = authService.login(provider, oAuth2LoginRequest.accessToken());
     return ResponseEntity.ok(ApiResult.success(tokenResponse));

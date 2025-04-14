@@ -8,7 +8,6 @@ import com.tourgether.tourgether.auth.oauth.strategy.OAuth2StrategyContext;
 import com.tourgether.tourgether.auth.util.JwtUtil;
 import com.tourgether.tourgether.language.entity.Language;
 import com.tourgether.tourgether.member.entity.Member;
-import com.tourgether.tourgether.member.enums.Provider;
 import com.tourgether.tourgether.member.exception.MemberNotFoundException;
 import com.tourgether.tourgether.member.repository.MemberRepository;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -17,7 +16,6 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
