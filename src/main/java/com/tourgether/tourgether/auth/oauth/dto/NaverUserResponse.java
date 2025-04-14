@@ -1,5 +1,6 @@
 package com.tourgether.tourgether.auth.oauth.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,7 +14,8 @@ public record NaverUserResponse(
             @NotBlank
             String nickname,
             @NotBlank
-            String profile_image
+            @JsonProperty("profile_image")
+            String profileImage
     ) {
     }
 }
