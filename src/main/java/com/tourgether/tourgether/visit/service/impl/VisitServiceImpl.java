@@ -2,6 +2,7 @@ package com.tourgether.tourgether.visit.service.impl;
 
 import com.tourgether.tourgether.attraction.entity.Attraction;
 import com.tourgether.tourgether.attraction.entity.AttractionTranslation;
+import com.tourgether.tourgether.attraction.exception.AttractionNotFoundException;
 import com.tourgether.tourgether.attraction.exception.AttractionTranslationNotFoundException;
 import com.tourgether.tourgether.attraction.repository.AttractionRepository;
 import com.tourgether.tourgether.attraction.repository.AttractionTranslationRepository;
@@ -36,7 +37,7 @@ public class VisitServiceImpl implements VisitService {
 
     Attraction attraction = attractionRepository.findById(request.attractionId())
         .orElseThrow(
-            () -> new IllegalArgumentException("존재하지 않는 관광지 ID : " + request.attractionId()));
+            () -> new AttractionNotFoundException("존재하지 않는 관광지 ID : " + request.attractionId()));
 
     Visit visit = Visit.of(member, attraction);
     visitRepository.save(visit);

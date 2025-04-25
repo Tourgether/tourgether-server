@@ -1,6 +1,8 @@
 package com.tourgether.tourgether.attraction.exception;
 
-public class AttractionNotFoundException extends RuntimeException {
+import com.tourgether.tourgether.common.exception.ResourceNotFoundException;
+
+public class AttractionNotFoundException extends ResourceNotFoundException {
 
   public AttractionNotFoundException(String message) {
     super(message);
