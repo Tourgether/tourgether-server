@@ -3,7 +3,7 @@ package com.tourgether.tourgether.visit.controller;
 import com.tourgether.tourgether.auth.CustomUserDetails;
 import com.tourgether.tourgether.common.dto.ApiResult;
 import com.tourgether.tourgether.visit.dto.request.VisitCreateRequest;
-import com.tourgether.tourgether.visit.dto.response.VisitResponse;
+import com.tourgether.tourgether.visit.dto.response.VisitCreateResponse;
 import com.tourgether.tourgether.visit.service.VisitService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +22,11 @@ public class VisitController {
   private final VisitService visitService;
 
   @PostMapping
-  public ResponseEntity<ApiResult<VisitResponse>> createVisit(
+  public ResponseEntity<ApiResult<VisitCreateResponse>> createVisit(
       @AuthenticationPrincipal CustomUserDetails userDetails,
       @RequestBody @Valid VisitCreateRequest request) {
 
-    VisitResponse response = visitService.createVisit(userDetails.memberId(), request);
+    VisitCreateResponse response = visitService.createVisit(userDetails.memberId(), request);
 
     return ResponseEntity.ok(ApiResult.success(response));
   }

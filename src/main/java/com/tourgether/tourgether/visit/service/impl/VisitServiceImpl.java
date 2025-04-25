@@ -5,7 +5,7 @@ import com.tourgether.tourgether.attraction.repository.AttractionRepository;
 import com.tourgether.tourgether.member.entity.Member;
 import com.tourgether.tourgether.member.repository.MemberRepository;
 import com.tourgether.tourgether.visit.dto.request.VisitCreateRequest;
-import com.tourgether.tourgether.visit.dto.response.VisitResponse;
+import com.tourgether.tourgether.visit.dto.response.VisitCreateResponse;
 import com.tourgether.tourgether.visit.entity.Visit;
 import com.tourgether.tourgether.visit.repository.VisitRepository;
 import com.tourgether.tourgether.visit.service.VisitService;
@@ -24,7 +24,7 @@ public class VisitServiceImpl implements VisitService {
 
   @Transactional
   @Override
-  public VisitResponse createVisit(Long memberId, VisitCreateRequest request) {
+  public VisitCreateResponse createVisit(Long memberId, VisitCreateRequest request) {
     Member member = memberRepository.getMemberOrThrow(memberId);
 
     Attraction attraction = attractionRepository.findById(request.attractionId())
@@ -34,6 +34,6 @@ public class VisitServiceImpl implements VisitService {
     Visit visit = Visit.of(member, attraction);
     visitRepository.save(visit);
 
-    return VisitResponse.from(visit);
+    return VisitCreateResponse.from(visit);
   }
 }
