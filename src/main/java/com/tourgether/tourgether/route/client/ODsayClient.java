@@ -5,7 +5,6 @@ import com.tourgether.tourgether.route.dto.response.RouteSearchResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestClient.RequestHeadersSpec;
 
 @Component
 public class ODsayClient {
@@ -44,7 +43,7 @@ public class ODsayClient {
   public RouteLaneResponse loadLane(String mapObj, int lang) {
     String finalMapObj = mapObj.startsWith("0:0@") ? mapObj : "0:0@" + mapObj;
 
-    RequestHeadersSpec<?> uri = restClient.get()
+    return restClient.get()
         .uri(uriBuilder -> uriBuilder
             .scheme("https")
             .host("api.odsay.com")
@@ -52,8 +51,7 @@ public class ODsayClient {
             .queryParam("apiKey", apiKey)
             .queryParam("mapObject", finalMapObj)
             .queryParam("lang", lang)
-            .build());
-    return uri
+            .build())
         .retrieve()
         .body(RouteLaneResponse.class);
   }
