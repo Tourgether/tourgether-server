@@ -8,11 +8,13 @@ import com.tourgether.tourgether.attraction.repository.QuizRepository;
 import com.tourgether.tourgether.attraction.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class QuizServiceImpl implements QuizService {
 
     private final AttractionTranslationRepository translationRepository;
