@@ -26,7 +26,7 @@ public class AttractionLikeController {
       @PathVariable Long attractionId,
       @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
-    boolean result = attractionLikeService.toggleLike(attractionId, 1L);
+    boolean result = attractionLikeService.toggleLike(attractionId, userDetails.memberId());
     return ResponseEntity.ok(ApiResult.success(result));
   }
 
@@ -35,7 +35,7 @@ public class AttractionLikeController {
       @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
     List<AttractionLikeResponse> likedAttractions =
-        attractionLikeService.getMyLikedAttractions(1L);
+        attractionLikeService.getMyLikedAttractions(userDetails.memberId());
     return ResponseEntity.ok(ApiResult.success(likedAttractions));
   }
 
@@ -44,7 +44,7 @@ public class AttractionLikeController {
       @PathVariable Long attractionId,
       @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
-    boolean result = attractionLikeService.isLiked(attractionId, 1L);
+    boolean result = attractionLikeService.isLiked(attractionId, userDetails.memberId());
     return ResponseEntity.ok(ApiResult.success(result));
   }
 
