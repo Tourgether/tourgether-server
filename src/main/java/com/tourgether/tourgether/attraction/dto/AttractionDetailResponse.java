@@ -9,7 +9,10 @@ import org.locationtech.jts.geom.Point;
 public record AttractionDetailResponse(
 
     @Schema(description = "여행지 번역 ID", example = "1")
-    Long id,
+    Long translationId,
+
+    @Schema(description = "여행지 ID", example = "1")
+    Long attractionId,
 
     @Schema(description = "여행지 이름", example = "경복궁")
     String name,
@@ -48,6 +51,7 @@ public record AttractionDetailResponse(
 
     return new AttractionDetailResponse(
         entity.getTranslationId(),
+        entity.getAttraction().getId(),
         entity.getName(),
         entity.getAddress(),
         entity.getSummary(),
