@@ -1,5 +1,6 @@
 package com.tourgether.tourgether.member.entity;
 
+import com.tourgether.tourgether.attraction.entity.AttractionLike;
 import com.tourgether.tourgether.language.entity.Language;
 import com.tourgether.tourgether.member.dto.response.MemberInfoResponse;
 import com.tourgether.tourgether.member.enums.Provider;
@@ -14,10 +15,11 @@ import java.time.LocalDateTime;
 
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "social_members")
+//TODO (provider, providerId) Unique key
 public class Member {
 
   @Id
@@ -54,6 +56,9 @@ public class Member {
 
   @OneToMany(mappedBy = "member")
   private List<Visit> visitList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<AttractionLike> attractionLikes = new ArrayList<>();
 
   public void withdraw() {
     this.status = Status.WITHDRAW;
