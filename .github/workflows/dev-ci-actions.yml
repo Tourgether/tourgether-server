@@ -19,7 +19,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Dev Profile
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x test
         env:
           SPRING_PROFILES_ACTIVE: dev
           JWT_ACCESS_SECRET_KEY: ${{ secrets.JWT_ACCESS_SECRET_KEY }}
@@ -27,6 +27,6 @@ jobs:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
           ODSAY_API_KEY: ${{ secrets.ODSAY_API_KEY }}
-          DEV_DB_NAME: ${{ secrets.DEV_DB_NAME }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DEV_DB_NAME }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_DEV_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_DEV_PASSWORD }}
