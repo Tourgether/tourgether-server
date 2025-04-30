@@ -4,10 +4,10 @@ spring:
       on-profile: dev
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/devdb
+    url: jdbc:postgresql://localhost:5432/${DEV_DB_NAME}
     driver-class-name: org.postgresql.Driver
-    username: devuser
-    password: devpass123
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
 
   data:
     redis:

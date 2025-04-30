@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  app:
+    image: 515966527734.dkr.ecr.ap-northeast-2.amazonaws.com/tourgether-server:latest
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      REDIS_HOST: redis
+    depends_on:
+      - postgres-db
+      - redis
+    restart: always
   db:
     image: postgis/postgis:15-3.3
     container_name: postgis-db
@@ -23,5 +36,5 @@ services:
     volumes:
       - ./redisdata:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 
