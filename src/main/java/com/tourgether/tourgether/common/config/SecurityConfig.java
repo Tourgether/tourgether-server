@@ -23,23 +23,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(
-                        (cors) ->
-                                cors
-                                        .configurationSource(corsConfigurationSource()))
-                .csrf(
-                        AbstractHttpConfigurer::disable
-                )
-                .sessionManagement((sessionManagement) ->
-                        sessionManagement
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .cors(
+            (cors) ->
+                cors
+                    .configurationSource(corsConfigurationSource()))
+        .csrf(
+            AbstractHttpConfigurer::disable
+        )
+        .sessionManagement((sessionManagement) ->
+            sessionManagement
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        )
                 .authorizeHttpRequests(
                         (auth) ->
                                 auth
@@ -55,21 +54,20 @@ public class SecurityConfig {
                                         .anyRequest().authenticated()
                 )
 
-                .headers((headers) ->
-                        headers
-                                .frameOptions(FrameOptionsConfig::disable)
-                )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
+        .headers((headers) ->
+            headers
+                .frameOptions(FrameOptionsConfig::disable)
+        )
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    return http.build();
+  }
 
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration config = new CorsConfiguration();
 
-
-        configuration.setAllowedOrigins(List.of(
+      config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "https://www.tourgether.site",
                 "https://tourgether.site",
@@ -77,14 +75,21 @@ public class SecurityConfig {
                 "https://tourgether.shop"
         ));
 
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
 
-        configuration.setAllowCredentials(true);
+    // Method
+    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+    // Header (★ 반드시 명시)
+    config.setAllowedHeaders(List.of(
+        "Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"
+    ));
 
+    // Credential
+    config.setAllowCredentials(true);
+    config.setMaxAge(3600L);
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", config);
+    return source;
+  }
 }
