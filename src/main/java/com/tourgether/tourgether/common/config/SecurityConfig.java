@@ -65,9 +65,9 @@ public class SecurityConfig {
 
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration config = new CorsConfiguration();
+    CorsConfiguration configuration = new CorsConfiguration();
 
-      config.setAllowedOrigins(List.of(
+      configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "https://www.tourgether.site",
                 "https://tourgether.site",
@@ -75,21 +75,17 @@ public class SecurityConfig {
                 "https://tourgether.shop"
         ));
 
+        configuration.setAllowedMethods(        List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of(
+                "Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"
+        ));
 
-    // Method
-    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
 
-    // Header (★ 반드시 명시)
-    config.setAllowedHeaders(List.of(
-        "Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"
-    ));
-
-    // Credential
-    config.setAllowCredentials(true);
-    config.setMaxAge(3600L);
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", config);
+    source.registerCorsConfiguration("/**", configuration);
     return source;
   }
 }
